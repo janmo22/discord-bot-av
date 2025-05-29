@@ -1,3 +1,16 @@
-"scripts": {
-  "start": "node index.js"
+{
+  "name": "discord-bot-av",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5"
+  }
 }
+
+
