@@ -1,3 +1,10 @@
+process.on('uncaughtException', (err) => {
+  console.error('❌ Uncaught Exception:', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('❌ Unhandled Rejection:', reason);
+});
+
 import { Client, GatewayIntentBits } from 'discord.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
