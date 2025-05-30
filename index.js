@@ -1,49 +1,61 @@
-process.on('uncaughtException', (err) => {
-  console.error('❌ Uncaught Exception:', err);
-});
-process.on('unhandledRejection', (reason) => {
-  console.error('❌ Unhandled Rejection:', reason);
-});
-
 import { Client, GatewayIntentBits } from 'discord.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Crear una instancia del cliente de Discord con permisos adecuados
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
+    GatewayIntentBits.MessageContent
+  ]
 });
 
-// Confirmar conexión del bot
 client.once('ready', () => {
   console.log(`✅ Bot conectado como ${client.user.tag}`);
 });
 
-// Escuchar mensajes nuevos y enviarlos a n8n
 client.on('messageCreate', async (message) => {
-  // Ignorar mensajes de otros bots
   if (message.author.bot) return;
 
-  try {
-    await axios.post(process.env.N8N_WEBHOOK_URL, {
-      user: message.author.username,
-      user_id: message.author.id,
-      content: message.content,
-      channel: message.channel.name,
-      timestamp: new Date().toISOString(),
-    });
+  // Inicializa datos básicos
+  const payload = {
+    user: message.author.username,
+    user_id: message.author.id,
+    content: message.content,
+    channel: message.channel.name,
+    timestamp: new Date().toISOString(),
+    is_reply: false,
+    reply_to: null
+  };
 
-    console.log(`[→] Enviado a n8n: ${message.content}`);
+  // Si es respuesta a otro mensaje
+  if (message.reference?.messageId) {
+    try {
+      const repliedMessage = await message.fetchReference();
+
+      payload.is_reply = true;
+      payload.reply_to = {
+        author: repliedMessage.author.username,
+        content: repliedMessage.content,
+        id: repliedMessage.id
+      };
+
+      console.log(`[↩] ${message.author.username} respondió a ${repliedMessage.author.username}`);
+    } catch (error) {
+      console.warn('⚠️ No se pudo obtener el mensaje original:', error.message);
+    }
+  }
+
+  // Enviar al webhook de n8n
+  try {
+    await axios.post(process.env.N8N_WEBHOOK_URL, payload);
+    console.log(`[→] Enviado a n8n: ${payload.content}`);
   } catch (err) {
     console.error('❌ Error al enviar a n8n:', err.message);
   }
 });
 
-// Iniciar sesión con el token del bot
 client.login(process.env.DISCORD_BOT_TOKEN);
+
