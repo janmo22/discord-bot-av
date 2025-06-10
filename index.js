@@ -20,14 +20,16 @@ client.on('messageCreate', async (message) => {
   if (message.author.bot) return;
 
   const payload = {
-    user: message.author.username,
-    user_id: message.author.id,
-    content: message.content,
-    channel: message.channel.name,
-    timestamp: new Date().toISOString(),
-    is_reply: false,
-    reply_to: null
-  };
+  user: message.author.username,
+  user_id: message.author.id,
+  content: message.content,
+  channel: message.channel.name,
+  guild: message.guild?.name || "Sin nombre",
+  timestamp: new Date().toISOString(),
+  is_reply: false,
+  reply_to: null
+};
+
 
   // Si es respuesta a otro mensaje
   if (message.reference?.messageId) {
