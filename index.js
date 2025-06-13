@@ -56,7 +56,7 @@ client.on('messageCreate', async (message) => {
   // 🤖 Canal FAQ
   if (message.channel.name === "faq") {
     try {
-      const response = await axios.post("https://primary-production-9b33.up.railway.app/webhook/b1f4d666-dc26-41e4-9aa7-fb95ef13940e", {
+      const response = await axios.post("https://primary-production-9b33.up.railway.app/webhook/90dcb364-e8a6-42e7-a9b1-e48e5bed9e06", {
         question: message.content,
         user: message.author.username,
         channel_id: message.channel.id,
