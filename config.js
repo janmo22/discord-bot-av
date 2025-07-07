@@ -2,14 +2,15 @@ export const CONFIG_SERVIDORES = {
   '1343220392424247316': { // Lector Akae G10
     nombre: 'Lector Akae G10',
 
-    // Canales fijos (únicos en el servidor)
+    // Canales fijos únicos (por nombre lógico → ID)
     canalesFijos: {
       celebracion: '1343220393543995503',
       subirMiVibra: '1343220393808498688',
-      experiencias: '1343220393808498689'
+      experiencias: '1343220393808498689',
+      tameana: '1343220393808498690' // ✅ nuevo canal añadido
     },
 
-    // Categorías por embajador (cada una tiene sus propios canales)
+    // Categorías por embajador
     categoriasPorEmbajador: {
       cristina: {
         embajadora: '1343220394039054347',
@@ -41,7 +42,7 @@ export const CONFIG_SERVIDORES = {
       }
     },
 
-    // Canal de soporte para lógica FAQ (pendiente que me confirmes ID exacto)
+    // Canal para lógica FAQ (pendiente de definir ID correcto)
     canalFAQ: 'PENDIENTE_ID_CANAL_SOPORTE',
 
     // Webhooks
