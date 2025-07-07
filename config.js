@@ -1,0 +1,51 @@
+export const CONFIG_SERVIDORES = {
+  '1343220392424247316': { // Lector Akae G10
+    nombre: 'Lector Akae G10',
+
+    // Canales fijos (únicos en el servidor)
+    canalesFijos: {
+      celebracion: '1343220393543995503',
+      subirMiVibra: '1343220393808498688',
+      experiencias: '1343220393808498689'
+    },
+
+    // Categorías por embajador (cada una tiene sus propios canales)
+    categoriasPorEmbajador: {
+      cristina: {
+        embajadora: '1343220394039054347',
+        urgencias: '1343631640441655376'
+      },
+      clara: {
+        embajadora: '1343220395410460853',
+        urgencias: '1343632895159570472'
+      },
+      esther: {
+        embajadora: '1343220396874403927',
+        urgencias: '1343635192962879559'
+      },
+      cristinaC: {
+        embajadora: '1343220397583110282',
+        urgencias: '1343635323472842752'
+      },
+      juanPablo: {
+        embajadora: '1343220398795522150',
+        urgencias: '1343635418620497931'
+      },
+      alba: {
+        embajadora: '1343535760774791250',
+        urgencias: '1343635501286166660'
+      },
+      angelo: {
+        embajadora: '1343536834222886932',
+        urgencias: '1343635706471256145'
+      }
+    },
+
+    // Canal de soporte para lógica FAQ (pendiente que me confirmes ID exacto)
+    canalFAQ: 'PENDIENTE_ID_CANAL_SOPORTE',
+
+    // Webhooks
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  }
+};
