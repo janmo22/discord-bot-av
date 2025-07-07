@@ -1,6 +1,7 @@
 import { Client, GatewayIntentBits } from 'discord.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import { CONFIG_SERVIDORES } from './config.js';
 
 dotenv.config();
 
@@ -12,78 +13,55 @@ const client = new Client({
   ]
 });
 
-const CONFIG_SERVIDORES = {
-  '1343220392424247316': {
-    nombre: 'Lector Akae G10',
-    canalesAnalisis: [
-      'celebracion',
-      'subir-mi-vibra',
-      'experiencias',
-      'tameana',
-      'canalizacion',
-      'el-mar-de-dudas',
-      'feedback-dupla',
-      'total-de-alumnos'
-    ],
-    canalFAQ: 'soporte',
-    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
-  },
-  '1329913618338287720': {
-    nombre: 'Servidor Cielo',
-    canalesAnalisis: [
-      'mis-logros',
-      'subir-mi-vibra',
-      'experiencias',
-      'el-mar-de-dudas',
-      'feedback-dupla',
-      'total-de-alumnos'
-    ],
-    canalFAQ: 'soporte',
-    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
-  },
-  '1277953002438656052': {
-    nombre: 'Servidor La Tribu',
-    canalesAnalisis: [
-      'celebracion',
-      'subir-mi-vibra',
-      'experiencias',
-      'tameana',
-      'canalizacion',
-      'el-mar-de-dudas',
-      'feedback-dupla',
-      'total-de-alumnos'
-    ],
-    canalFAQ: 'soporte',
-    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
-  }
-};
-
 client.once('ready', () => {
   console.log(`✅ Bot conectado como ${client.user.tag}`);
-  client.guilds.cache.forEach(g => {
-    console.log(`🛰️ Conectado a: ${g.name} (ID: ${g.id})`);
+  client.guilds.cache.forEach(guild => {
+    console.log(`🛰️ Conectado a: ${guild.name} (ID: ${guild.id})`);
   });
 });
 
 client.on('messageCreate', async (message) => {
-  if (message.author.bot) return;
-  if (!message.guild) return;
+  if (message.author.bot || !message.guild) return;
 
   const guildId = message.guild.id;
-  const canal = message.channel.name;
+  const canal = message.channel;
+  const canalId = canal.id;
+  const categoriaId = canal.parentId;
 
   const config = CONFIG_SERVIDORES[guildId];
   if (!config) return;
+
+  let tipo_canal = null;
+  let embajador = null;
+
+  // 1. Verificar si es un canal fijo
+  const canalFijo = Object.entries(config.canalesFijos).find(([nombre, id]) => id === canalId);
+  if (canalFijo) {
+    tipo_canal = canalFijo[0];
+  }
+
+  // 2. Verificar si está dentro de una categoría de embajador
+  if (!tipo_canal) {
+    for (const [nombreEmbajador, categorias] of Object.entries(config.categoriasPorEmbajador)) {
+      if (Object.values(categorias).includes(categoriaId)) {
+        embajador = nombreEmbajador;
+        tipo_canal = canal.name; // usa el nombre interno del canal
+        break;
+      }
+    }
+  }
 
   const payload = {
     user: message.author.username,
     user_id: message.author.id,
     content: message.content,
-    channel: canal,
+    channel: canal.name,
+    channel_id: canalId,
     guild: message.guild.name,
+    guild_id: guildId,
+    category_id: categoriaId,
+    embajador,
+    tipo_canal,
     timestamp: new Date().toISOString(),
     is_reply: false,
     reply_to: null
@@ -98,46 +76,43 @@ client.on('messageCreate', async (message) => {
         content: repliedMessage.content,
         id: repliedMessage.id
       };
-      console.log(`[↩] ${message.author.username} respondió a ${repliedMessage.author.username}`);
     } catch (error) {
       console.warn('⚠️ No se pudo obtener el mensaje original:', error.message);
     }
   }
 
-  // 📊 Bot de análisis
-  if (config.canalesAnalisis.includes(canal)) {
-    try {
-      await axios.post(config.webhookAnalisis, payload);
-      console.log(`[📊][${config.nombre}] Enviado a webhook de análisis`);
-    } catch (err) {
-      console.error(`❌ Error al enviar a webhook análisis (${config.nombre}):`, err.message);
-    }
-    return;
+  // 3. Enviar SIEMPRE al webhook global
+  try {
+    await axios.post(config.webhookAnalisis, payload);
+    console.log(`[📊] Enviado a análisis (${embajador || 'global'} - ${tipo_canal || 'sin tipo'})`);
+  } catch (err) {
+    console.error('❌ Error al enviar al webhook de análisis:', err.message);
   }
 
-  // 💬 Bot FAQ
-  if (canal === config.canalFAQ) {
+  // 4. (Opcional) lógica FAQ si se activa
+  if (canalId === config.canalFAQ) {
     try {
       const response = await axios.post(config.webhookFAQ, {
         question: message.content,
         user: message.author.username,
-        channel_id: message.channel.id,
+        channel_id: canalId,
         message_id: message.id
       });
 
       const reply = response.data?.reply;
       if (reply) {
         await message.reply(reply);
-        console.log(`[🤖][${config.nombre}] Respuesta de IA enviada`);
+        console.log(`[🤖] Respuesta FAQ enviada`);
       } else {
-        console.warn(`[⚠️][${config.nombre}] Webhook FAQ no devolvió respuesta`);
+        console.warn('⚠️ Webhook FAQ no devolvió respuesta');
       }
     } catch (err) {
-      console.error(`❌ Error al enviar a webhook FAQ (${config.nombre}):`, err.message);
+      console.error('❌ Error al enviar al webhook FAQ:', err.message);
     }
   }
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
+
 
 
