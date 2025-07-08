@@ -48,5 +48,29 @@ export const CONFIG_SERVIDORES = {
     // Webhooks
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  },
+
+  '1387738817208914043': { // Servidor de prueba
+    nombre: 'Servidor de prueba',
+
+    // Canales fijos únicos
+    canalesFijos: {
+      canalPrueba: '1391699561806041148'
+    },
+
+    // Categorías por embajador
+    categoriasPorEmbajador: {
+      embajadorPrueba: {
+        embajadora: '1392048227049799690'
+      }
+    },
+
+    canalFAQ: 'PENDIENTE_ID_CANAL_SOPORTE',
+
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   }
 };
+
+
+
