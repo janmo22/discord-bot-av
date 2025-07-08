@@ -101,6 +101,23 @@ client.on('messageCreate', async (message) => {
     console.error(err.response?.data || 'Sin respuesta del servidor');
   }
 
+  // ✅ Lógica para canalizaciones (nuevo webhook)
+  if (config.canalesFijos.canalizaciones && canalId === config.canalesFijos.canalizaciones) {
+    if (!config.webhookCanalizaciones) {
+      console.error(`❌ No está definido el webhookCanalizaciones para ${guildId} (${config.nombre})`);
+    } else {
+      try {
+        console.log(`[DEBUG] Enviando a webhookCanalizaciones: ${config.webhookCanalizaciones}`);
+        const res = await axios.post(config.webhookCanalizaciones, payload);
+        console.log(`[🔗] Enviado a canalizaciones webhook`);
+        console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
+      } catch (err) {
+        console.error('❌ Error al enviar al webhook de canalizaciones:', err.message);
+        console.error(err.response?.data || 'Sin respuesta del servidor');
+      }
+    }
+  }
+
   // 🔁 Lógica opcional para el FAQ
   if (canalId === config.canalFAQ) {
     try {

@@ -55,7 +55,8 @@ export const CONFIG_SERVIDORES = {
 
     // Canales fijos únicos
     canalesFijos: {
-      canalPrueba: '1391699561806041148'
+      canalPrueba: '1391699561806041148',
+      canalizaciones: '1392169133818253354' // Añadido el canal canalizaciones
     },
 
     // Categorías por embajador
@@ -68,7 +69,8 @@ export const CONFIG_SERVIDORES = {
     canalFAQ: 'PENDIENTE_ID_CANAL_SOPORTE',
 
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
+    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES // Nuevo webhook para canalizaciones
   }
 };
 
