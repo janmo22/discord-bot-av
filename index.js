@@ -102,6 +102,7 @@ client.on('messageCreate', async (message) => {
   }
 
   // ✅ Lógica para canalizaciones (nuevo webhook)
+  console.log(`[DEBUG_CANALIZACIONES] canalId: ${canalId}, config.canalesFijos.canalizaciones: ${config.canalesFijos.canalizaciones}`);
   if (config.canalesFijos.canalizaciones && canalId === config.canalesFijos.canalizaciones) {
     if (!config.webhookCanalizaciones) {
       console.error(`❌ No está definido el webhookCanalizaciones para ${guildId} (${config.nombre})`);
