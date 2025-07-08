@@ -58,6 +58,7 @@ client.on('messageCreate', async (message) => {
     user: message.author.username,
     user_id: message.author.id,
     content: message.content,
+    message_id: message.id, // Añadido el ID del mensaje
     channel: canal.name,
     channel_id: canalId,
     guild: message.guild.name,
