@@ -29,7 +29,10 @@ client.on('messageCreate', async (message) => {
   const categoriaId = canal.parentId;
 
   const config = CONFIG_SERVIDORES[guildId];
-  if (!config) return;
+  if (!config) {
+    console.warn(`⚠️ No hay configuración para el servidor ${message.guild.name} (${guildId})`);
+    return;
+  }
 
   let tipo_canal = null;
   let embajador = null;
@@ -45,7 +48,7 @@ client.on('messageCreate', async (message) => {
     for (const [nombreEmbajador, categorias] of Object.entries(config.categoriasPorEmbajador)) {
       if (Object.values(categorias).includes(categoriaId)) {
         embajador = nombreEmbajador;
-        tipo_canal = canal.name; // usa el nombre interno del canal
+        tipo_canal = canal.name; // usa el nombre real del canal
         break;
       }
     }
@@ -81,15 +84,24 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // 3. Enviar SIEMPRE al webhook global
-  try {
-    await axios.post(config.webhookAnalisis, payload);
-    console.log(`[📊] Enviado a análisis (${embajador || 'global'} - ${tipo_canal || 'sin tipo'})`);
-  } catch (err) {
-    console.error('❌ Error al enviar al webhook de análisis:', err.message);
+  // ✅ Validar que existe el webhook antes de enviar
+  if (!config.webhookAnalisis) {
+    console.error(`❌ No está definido el webhookAnalisis para ${guildId} (${config.nombre})`);
+    return;
   }
 
-  // 4. (Opcional) lógica FAQ si se activa
+  // ✅ Enviar SIEMPRE al webhook de análisis
+  try {
+    console.log(`[DEBUG] Enviando a webhookAnalisis: ${config.webhookAnalisis}`);
+    const res = await axios.post(config.webhookAnalisis, payload);
+    console.log(`[📊] Enviado a análisis (${embajador || 'global'} - ${tipo_canal || 'sin tipo'})`);
+    console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
+  } catch (err) {
+    console.error('❌ Error al enviar al webhook de análisis:', err.message);
+    console.error(err.response?.data || 'Sin respuesta del servidor');
+  }
+
+  // 🔁 Lógica opcional para el FAQ
   if (canalId === config.canalFAQ) {
     try {
       const response = await axios.post(config.webhookFAQ, {
