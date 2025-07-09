@@ -56,7 +56,7 @@ export const CONFIG_SERVIDORES = {
     // Canales fijos únicos
     canalesFijos: {
       canalPrueba: '1391699561806041148',
-      canalizaciones: '1392169133818253354' // Añadido el canal canalizaciones
+      canalizaciones: '1392169133818253354' //canal canalizaciones
     },
 
     // Categorías por embajador
@@ -70,7 +70,18 @@ export const CONFIG_SERVIDORES = {
 
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
-    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES // Nuevo webhook para canalizaciones
+    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES 
+  },
+
+  '1377586518310522900': {
+    nombre: 'Servidor de pruebas hazloconflow',
+    canalesFijos: {
+      canalizaciones: '1392083652250439796' // Canal de canalizaciones
+    },
+    categoriasPorEmbajador: {},
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
+    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES
   }
 };
 
