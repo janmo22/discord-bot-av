@@ -102,6 +102,8 @@ client.on('messageCreate', async (message) => {
     console.error(err.response?.data || 'Sin respuesta del servidor');
   }
 
+
+
   // ✅ Lógica para canalizaciones (nuevo webhook)
   console.log(`[DEBUG_CANALIZACIONES] canalId: ${canalId}, config.canalesFijos.canalizaciones: ${config.canalesFijos.canalizaciones}`);
   if (config.canalesFijos.canalizaciones && canalId === config.canalesFijos.canalizaciones) {
@@ -120,6 +122,8 @@ client.on('messageCreate', async (message) => {
     }
   }
 
+
+
   // 🔁 Lógica opcional para el FAQ
   if (config.canalesFijos.faqs && canalId === config.canalesFijos.faqs) {
     try {
@@ -128,7 +132,8 @@ client.on('messageCreate', async (message) => {
         question: message.content,
         user: message.author.username,
         channel_id: canalId,
-        message_id: message.id
+        message_id: message.id,
+        user_id: message.author.id,
       });
       console.log(`[🤖] Enviado a FAQ webhook`);
       console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
