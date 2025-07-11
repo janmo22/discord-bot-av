@@ -42,8 +42,6 @@ export const CONFIG_SERVIDORES = {
       }
     },
 
-    // Canal para lógica FAQ (pendiente de definir ID correcto)
-    canalFAQ: 'PENDIENTE_ID_CANAL_SOPORTE',
 
     // Webhooks
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
@@ -66,7 +64,6 @@ export const CONFIG_SERVIDORES = {
       }
     },
 
-    canalFAQ: 'PENDIENTE_ID_CANAL_SOPORTE',
 
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
@@ -76,7 +73,10 @@ export const CONFIG_SERVIDORES = {
   '1377586518310522900': {
     nombre: 'Servidor de pruebas hazloconflow',
     canalesFijos: {
-      canalizaciones: '1392083652250439796' // Canal de canalizaciones
+      
+      canalizaciones: '1392083652250439796', // Canal de canalizaciones
+      faqs: '1377914869461815296' // Canal de faqs
+
     },
     categoriasPorEmbajador: {},
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,

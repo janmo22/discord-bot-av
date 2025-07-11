@@ -121,24 +121,20 @@ client.on('messageCreate', async (message) => {
   }
 
   // 🔁 Lógica opcional para el FAQ
-  if (canalId === config.canalFAQ) {
+  if (config.canalesFijos.faqs && canalId === config.canalesFijos.faqs) {
     try {
-      const response = await axios.post(config.webhookFAQ, {
+      console.log(`[DEBUG] Enviando a webhookFAQ: ${config.webhookFAQ}`);
+      const res = await axios.post(config.webhookFAQ, {
         question: message.content,
         user: message.author.username,
         channel_id: canalId,
         message_id: message.id
       });
-
-      const reply = response.data?.reply;
-      if (reply) {
-        await message.reply(reply);
-        console.log(`[🤖] Respuesta FAQ enviada`);
-      } else {
-        console.warn('⚠️ Webhook FAQ no devolvió respuesta');
-      }
+      console.log(`[🤖] Enviado a FAQ webhook`);
+      console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
     } catch (err) {
       console.error('❌ Error al enviar al webhook FAQ:', err.message);
+      console.error(err.response?.data || 'Sin respuesta del servidor');
     }
   }
 });
