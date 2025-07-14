@@ -85,24 +85,68 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // ✅ Validar que existe el webhook antes de enviar
-  if (!config.webhookAnalisis) {
-    console.error(`❌ No está definido el webhookAnalisis para ${guildId} (${config.nombre})`);
-    return;
+  // Lógica de validación para activar el webhook de análisis
+  let shouldTriggerAnalisisWebhook = false;
+
+  // Reglas para 'Lector Akae G10'
+  if (guildId === '1343220392424247316') {
+    // 1. Verificar si es uno de los canales fijos
+    if (Object.values(config.canalesFijos).includes(canalId)) {
+      shouldTriggerAnalisisWebhook = true;
+    }
+
+    // 2. Verificar canales y categorías de embajadores si no es un canal fijo
+    if (!shouldTriggerAnalisisWebhook) {
+      for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
+        // Verificar si está en la categoría de urgencias
+        if (embajadorData.urgencias && categoriaId === embajadorData.urgencias) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+        // Verificar si es uno de los canales específicos del embajador
+        const canalesEmbajador = [
+          embajadorData.canalizacion,
+          embajadorData.el_mar_de_dudas,
+          embajadorData.feedbackDupla
+        ].filter(Boolean); // Filtra valores no definidos
+
+        if (canalesEmbajador.includes(canalId)) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+      }
+    }
   }
 
-  // ✅ Enviar SIEMPRE al webhook de análisis
-  try {
-    console.log(`[DEBUG] Enviando a webhookAnalisis: ${config.webhookAnalisis}`);
-    const res = await axios.post(config.webhookAnalisis, payload);
-    console.log(`[📊] Enviado a análisis (${embajador || 'global'} - ${tipo_canal || 'sin tipo'})`);
-    console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
-  } catch (err) {
-    console.error('❌ Error al enviar al webhook de análisis:', err.message);
-    console.error(err.response?.data || 'Sin respuesta del servidor');
+  // Reglas para 'Servidor de pruebas hazloconflow'
+  if (guildId === '1377586518310522900') {
+    const canalesPermitidos = [
+      config.canalesFijos.canalizaciones,
+      config.canalesFijos.faqs
+    ].filter(Boolean);
+
+    if (canalesPermitidos.includes(canalId)) {
+      shouldTriggerAnalisisWebhook = true;
+    }
   }
 
 
+  // ✅ Enviar al webhook de análisis SOLO si cumple las condiciones
+  if (shouldTriggerAnalisisWebhook) {
+    if (!config.webhookAnalisis) {
+      console.error(`❌ No está definido el webhookAnalisis para ${guildId} (${config.nombre})`);
+    } else {
+      try {
+        console.log(`[DEBUG] Enviando a webhookAnalisis: ${config.webhookAnalisis}`);
+        const res = await axios.post(config.webhookAnalisis, payload);
+        console.log(`[📊] Enviado a análisis (${embajador || 'global'} - ${tipo_canal || 'sin tipo'})`);
+        console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
+      } catch (err) {
+        console.error('❌ Error al enviar al webhook de análisis:', err.message);
+        console.error(err.response?.data || 'Sin respuesta del servidor');
+      }
+    }
+  }
 
   // ✅ Lógica para canalizaciones (nuevo webhook)
   console.log(`[DEBUG_CANALIZACIONES] canalId: ${canalId}, config.canalesFijos.canalizaciones: ${config.canalesFijos.canalizaciones}`);

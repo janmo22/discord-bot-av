@@ -13,32 +13,53 @@ export const CONFIG_SERVIDORES = {
     // Categorías por embajador
     categoriasPorEmbajador: {
       cristina: {
-        embajadora: '1343220394039054347',
-        urgencias: '1343631640441655376'
+        cat_embajadora: '1343220394039054347',
+        cat_urgencias: '1343631640441655376',
+        canalizacion: '1343220394039054349',
+        el_mar_de_dudas: '1343220394039054350',
+        feedbackDupla: '1343220394039054351' // Nuevo canal para feedback de dupla
       },
       clara: {
-        embajadora: '1343220395410460853',
-        urgencias: '1343632895159570472'
+        cat_embajadora: '1343220395410460853',
+        cat_urgencias: '1343632895159570472',
+        canalizacion: '1343220395972624395',
+        el_mar_de_dudas: '1343220395972624396',
+        feedbackDupla: '1343220395972624397' // Nuevo canal para feedback de dupla
       },
       esther: {
-        embajadora: '1343220396874403927',
-        urgencias: '1343635192962879559'
+        cat_embajadora: '1343220396874403927',
+        cat_urgencias: '1343635192962879559',
+        canalizacion: '1343220396874403930',
+        el_mar_de_dudas: '1343220396874403929',
+        feedbackDupla: '1343220397025263758' // Nuevo canal para feedback de dupla
       },
       cristinaC: {
-        embajadora: '1343220397583110282',
-        urgencias: '1343635323472842752'
+        cat_embajadora: '1343220397583110282',
+        cat_urgencias: '1343635323472842752',
+        canalizacion: '1343220397583110284',
+        el_mar_de_dudas: '1343220397851807844',
+        feedbackDupla: '1343220397851807845' // Nuevo canal para feedback de dupla
       },
       juanPablo: {
-        embajadora: '1343220398795522150',
-        urgencias: '1343635418620497931'
+        cat_embajadora: '1343220398795522150',
+        cat_urgencias: '1343635418620497931',
+        canalizacion: '1343220398795522152',
+        el_mar_de_dudas: '1343220398795522153',
+        feedbackDupla: '1343220398795522154' // Nuevo canal para feedback de dupla
       },
       alba: {
-        embajadora: '1343535760774791250',
-        urgencias: '1343635501286166660'
+        cat_embajadora: '1343535760774791250',
+        cat_urgencias: '1343635501286166660',
+        canalizacion: '1345074601918468147',
+        el_mar_de_dudas: '1343538729234595860',
+        feedbackDupla: '1343538761081815050' // Nuevo canal para feedback de dupla
       },
       angelo: {
-        embajadora: '1343536834222886932',
-        urgencias: '1343635706471256145'
+        cat_embajadora: '1343536834222886932',
+        cat_urgencias: '1343635706471256145',
+        canalizacion: '1345074645866643506',
+        el_mar_de_dudas: '1343539194093371432',
+        feedbackDupla: '1343539228503703552' // Nuevo canal para feedback de dupla
       }
     },
 
@@ -60,14 +81,14 @@ export const CONFIG_SERVIDORES = {
     // Categorías por embajador
     categoriasPorEmbajador: {
       embajadorPrueba: {
-        embajadora: '1392048227049799690'
+        embajadora: '1392048227049799690'// Nuevo canal para feedback de dupla
       }
     },
 
 
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
-    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES 
+    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES
   },
 
   '1377586518310522900': {
