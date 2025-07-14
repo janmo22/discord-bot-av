@@ -96,13 +96,15 @@ export const CONFIG_SERVIDORES = {
     canalesFijos: {
       
       canalizaciones: '1392083652250439796', // Canal de canalizaciones
-      faqs: '1377914869461815296' // Canal de faqs
+      faqs: '1377914869461815296', // Canal de faqs
+      instagram: '1382031373484818554'
 
     },
     categoriasPorEmbajador: {},
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
-    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES
+    webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES,
+    webhookInstagram: process.env.N8N_WEBHOOK_INSTA // Nuevo webhook para Instagram
   }
 };
 

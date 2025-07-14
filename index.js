@@ -186,6 +186,23 @@ client.on('messageCreate', async (message) => {
       console.error(err.response?.data || 'Sin respuesta del servidor');
     }
   }
+
+  // Lógica para el webhook de Instagram
+  if (config.canalesFijos.instagram && canalId === config.canalesFijos.instagram) {
+    if (!config.webhookInstagram) {
+      console.error(`❌ No está definido el webhookInstagram para ${guildId} (${config.nombre})`);
+    } else {
+      try {
+        console.log(`[DEBUG] Enviando a webhookInstagram: ${config.webhookInstagram}`);
+        const res = await axios.post(config.webhookInstagram, payload);
+        console.log(`[📸] Enviado a Instagram webhook`);
+        console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
+      } catch (err) {
+        console.error('❌ Error al enviar al webhook de Instagram:', err.message);
+        console.error(err.response?.data || 'Sin respuesta del servidor');
+      }
+    }
+  }
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
