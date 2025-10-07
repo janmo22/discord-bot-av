@@ -169,7 +169,7 @@ client.on('messageCreate', async (message) => {
 
 
   // 🔁 Lógica opcional para el FAQ
-  if (config.canalesFijos.faqs && canalId === config.canalesFijos.faqs) {
+  if ((config.canalesFijos.faqs && canalId === config.canalesFijos.faqs) || (guildId === '1349434394812616784' && config.canalesFijos.soporte && canalId === config.canalesFijos.soporte)) {
     try {
       console.log(`[DEBUG] Enviando a webhookFAQ: ${config.webhookFAQ}`);
       const res = await axios.post(config.webhookFAQ, {
@@ -186,6 +186,11 @@ client.on('messageCreate', async (message) => {
       console.error(err.response?.data || 'Sin respuesta del servidor');
     }
   }
+
+
+
+
+  
 
   // Lógica para el webhook de Instagram
   if (config.canalesFijos.instagram && canalId === config.canalesFijos.instagram) {

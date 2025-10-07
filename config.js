@@ -69,6 +69,22 @@ export const CONFIG_SERVIDORES = {
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
 
+
+  '1349434394812616784': { // Servidor de G3
+    nombre: 'Terapeuta Akae G3',
+
+    // Canales fijos únicos
+    canalesFijos: {
+      soporte: '1424773975023685682',
+    },
+    
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  },
+
+
+
+
   '1387738817208914043': { // Servidor de prueba
     nombre: 'Servidor de prueba',
 
