@@ -88,8 +88,8 @@ client.on('messageCreate', async (message) => {
   // Lógica de validación para activar el webhook de análisis
   let shouldTriggerAnalisisWebhook = false;
 
-  // Reglas para 'Lector Akae G10'
-  if (guildId === '1343220392424247316') {
+  // Reglas para 'Lector Akae G10'   //LOGOCA PAAR ANLSISI Y REPORTES G10/ AHOR AHEMO SCMABIADO A G3
+  if (guildId === '1349434394812616784') {   //G10 : 1343220392424247316
     // 1. Verificar si es uno de los canales fijos
     if (Object.values(config.canalesFijos).includes(canalId)) {
       shouldTriggerAnalisisWebhook = true;

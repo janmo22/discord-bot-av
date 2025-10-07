@@ -70,14 +70,43 @@ export const CONFIG_SERVIDORES = {
   },
 
 
+
+
   '1349434394812616784': { // Servidor de G3
     nombre: 'Terapeuta Akae G3',
 
     // Canales fijos únicos
     canalesFijos: {
-      soporte: '1424773975023685682',
+      soporte: '1424773975023685682', 
+      celebracion: '1349434395005812866',     
+      subirMiVibra: '1349434395165065216',
+      experiencias: '1349434395165065217'
     },
-    
+
+    // Categorías por embajador
+    categoriasPorEmbajador: {
+      cristinaC: {
+        cat_embajadora: '1349434395165065225',
+        cat_urgencias: '1350881321970434190',
+        el_mar_de_dudas: '1349434395312001175',
+        feedbackDupla: '1349434395312001176' // Nuevo canal para feedback de dupla
+      },
+      juanPablo: {
+        cat_embajadora: '1349434395165065222',
+        cat_urgencias: '1350881674657009674',
+        el_mar_de_dudas: '1349434395165065223',
+        feedbackDupla: '1349434395165065224' // Nuevo canal para feedback de dupla
+      },
+      mariaA: {
+        cat_embajadora: '1349434395312001177',
+        cat_urgencias: '1350881556968902737',
+        el_mar_de_dudas: '1349434395312001178',
+        feedbackDupla: '1349434395312001179' // Nuevo canal para feedback de dupla
+      }
+    },
+
+
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
