@@ -107,7 +107,6 @@ export const CONFIG_SERVIDORES = {
 
 
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
 

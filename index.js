@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits } from 'discord.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import { CONFIG_SERVIDORES } from './config.js';
+import { startScheduler } from './scheduler.js';
 
 dotenv.config();
 
@@ -18,6 +19,13 @@ client.once('ready', () => {
   client.guilds.cache.forEach(guild => {
     console.log(`🛰️ Conectado a: ${guild.name} (ID: ${guild.id})`);
   });
+
+  // Iniciar scheduler
+  try {
+    startScheduler(client);
+  } catch (err) {
+    console.error('Error iniciando scheduler:', err.message);
+  }
 });
 
 client.on('messageCreate', async (message) => {
