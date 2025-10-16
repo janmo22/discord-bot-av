@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, ChannelType } from 'discord.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import { CONFIG_SERVIDORES } from './config.js';
@@ -26,7 +26,30 @@ client.once('ready', () => {
   } catch (err) {
     console.error('Error iniciando scheduler:', err.message);
   }
+
+  // Diagnóstico de variables críticas (opcional)
+  console.log('ENV N8N_WEBHOOK_FAQ:', process.env.N8N_WEBHOOK_FAQ ? 'OK' : 'UNDEFINED');
+  console.log('ENV DISCORD_BOT_TOKEN:', process.env.DISCORD_BOT_TOKEN ? 'OK' : 'UNDEFINED');
 });
+
+// ---------- AUXILIAR: detectar canal de soporte (incluye hilos bajo ese canal) ----------
+function isSupportChannel(canal, config) {
+  const soporteId = config?.canalesFijos?.soporte;
+  if (!soporteId) return false;
+
+  // Coincidencia directa
+  if (canal.id === soporteId) return true;
+
+  // Si es un hilo y su padre es el canal de soporte
+  if (
+    canal.type === ChannelType.PublicThread ||
+    canal.type === ChannelType.PrivateThread ||
+    canal.type === ChannelType.AnnouncementThread
+  ) {
+    return canal.parentId === soporteId;
+  }
+  return false;
+}
 
 client.on('messageCreate', async (message) => {
   if (message.author.bot || !message.guild) return;
@@ -46,13 +69,13 @@ client.on('messageCreate', async (message) => {
   let embajador = null;
 
   // 1. Verificar si es un canal fijo
-  const canalFijo = Object.entries(config.canalesFijos).find(([nombre, id]) => id === canalId);
+  const canalFijo = Object.entries(config.canalesFijos || {}).find(([_, id]) => id === canalId);
   if (canalFijo) {
     tipo_canal = canalFijo[0];
   }
 
   // 2. Verificar si está dentro de una categoría de embajador
-  if (!tipo_canal) {
+  if (!tipo_canal && config.categoriasPorEmbajador) {
     for (const [nombreEmbajador, categorias] of Object.entries(config.categoriasPorEmbajador)) {
       if (Object.values(categorias).includes(categoriaId)) {
         embajador = nombreEmbajador;
@@ -66,7 +89,7 @@ client.on('messageCreate', async (message) => {
     user: message.author.username,
     user_id: message.author.id,
     content: message.content,
-    message_id: message.id, // Añadido el ID del mensaje
+    message_id: message.id,
     channel: canal.name,
     channel_id: canalId,
     guild: message.guild.name,
@@ -93,18 +116,18 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // Lógica de validación para activar el webhook de análisis
+  // ----------------- Lógica de ANÁLISIS (se mantiene tal cual) -----------------
   let shouldTriggerAnalisisWebhook = false;
 
   // Reglas para 'Lector Akae G10'   //LOGOCA PAAR ANLSISI Y REPORTES G10/ AHOR AHEMO SCMABIADO A G3
   if (guildId === '1349434394812616784') {   //G10 : 1343220392424247316
     // 1. Verificar si es uno de los canales fijos
-    if (Object.values(config.canalesFijos).includes(canalId)) {
+    if (Object.values(config.canalesFijos || {}).includes(canalId)) {
       shouldTriggerAnalisisWebhook = true;
     }
 
     // 2. Verificar canales y categorías de embajadores si no es un canal fijo
-    if (!shouldTriggerAnalisisWebhook) {
+    if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
       for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
         // Verificar si está en la categoría de urgencias
         if (embajadorData.urgencias && categoriaId === embajadorData.urgencias) {
@@ -116,7 +139,7 @@ client.on('messageCreate', async (message) => {
           embajadorData.canalizacion,
           embajadorData.el_mar_de_dudas,
           embajadorData.feedbackDupla
-        ].filter(Boolean); // Filtra valores no definidos
+        ].filter(Boolean);
 
         if (canalesEmbajador.includes(canalId)) {
           shouldTriggerAnalisisWebhook = true;
@@ -129,15 +152,14 @@ client.on('messageCreate', async (message) => {
   // Reglas para 'Servidor de pruebas hazloconflow'
   if (guildId === '1377586518310522900') {
     const canalesPermitidos = [
-      config.canalesFijos.canalizaciones,
-      config.canalesFijos.faqs
+      config.canalesFijos?.canalizaciones,
+      config.canalesFijos?.faqs
     ].filter(Boolean);
 
     if (canalesPermitidos.includes(canalId)) {
       shouldTriggerAnalisisWebhook = true;
     }
   }
-
 
   // ✅ Enviar al webhook de análisis SOLO si cumple las condiciones
   if (shouldTriggerAnalisisWebhook) {
@@ -156,9 +178,9 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // ✅ Lógica para canalizaciones (nuevo webhook)
-  console.log(`[DEBUG_CANALIZACIONES] canalId: ${canalId}, config.canalesFijos.canalizaciones: ${config.canalesFijos.canalizaciones}`);
-  if (config.canalesFijos.canalizaciones && canalId === config.canalesFijos.canalizaciones) {
+  // ----------------- Lógica de CANALIZACIONES (se mantiene) -----------------
+  console.log(`[DEBUG_CANALIZACIONES] canalId: ${canalId}, config.canalesFijos.canalizaciones: ${config.canalesFijos?.canalizaciones}`);
+  if (config.canalesFijos?.canalizaciones && canalId === config.canalesFijos.canalizaciones) {
     if (!config.webhookCanalizaciones) {
       console.error(`❌ No está definido el webhookCanalizaciones para ${guildId} (${config.nombre})`);
     } else {
@@ -174,10 +196,14 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-
-
-  // 🔁 Lógica opcional para el FAQ
-  if ((config.canalesFijos.faqs && canalId === config.canalesFijos.faqs) || (guildId === '1349434394812616784' && config.canalesFijos.soporte && canalId === config.canalesFijos.soporte)) {
+  // ----------------- Lógica de FAQ (AMPLIADA, sin quitar tu condición previa) -----------------
+  // Antes: solo disparaba FAQ si (faqs) o si era el soporte del G3.
+  // Ahora: además, dispara si el canal es 'soporte' en *cualquier* servidor (incluye hilos).
+  if (
+    (config.canalesFijos?.faqs && canalId === config.canalesFijos.faqs) ||
+    (guildId === '1349434394812616784' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) || // tu regla original
+    isSupportChannel(canal, config) // <-- NUEVO: soporte general para todos los servidores (ej. Psika G10)
+  ) {
     try {
       console.log(`[DEBUG] Enviando a webhookFAQ: ${config.webhookFAQ}`);
       const res = await axios.post(config.webhookFAQ, {
@@ -185,7 +211,7 @@ client.on('messageCreate', async (message) => {
         user: message.author.username,
         channel_id: canalId,
         message_id: message.id,
-        user_id: message.author.id,
+        user_id: message.author.id
       });
       console.log(`[🤖] Enviado a FAQ webhook`);
       console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
@@ -195,13 +221,8 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-
-
-
-  
-
-  // Lógica para el webhook de Instagram
-  if (config.canalesFijos.instagram && canalId === config.canalesFijos.instagram) {
+  // ----------------- Lógica de INSTAGRAM (se mantiene) -----------------
+  if (config.canalesFijos?.instagram && canalId === config.canalesFijos.instagram) {
     if (!config.webhookInstagram) {
       console.error(`❌ No está definido el webhookInstagram para ${guildId} (${config.nombre})`);
     } else {
