@@ -102,6 +102,27 @@ export const CONFIG_SERVIDORES = {
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
 
+  '1351968535580114984': { // Psika G10 (NUEVO)
+    nombre: 'Psika G10',
+
+    canalesFijos: {
+      soporte: '1428263834023362650', // 🚑-soporte (FAQ)
+      celebracion: '1351968537459167902', // 🥳mis-logros
+      subirMiVibra: '1351968537459167903', // 💃subir-mi-vibra
+      experiencias: '1351968537459167904', // 🚀experiencias
+      elCasoAbierto: '1351968537459167433', // 🧐el-caso-abierto
+      elJuego: '1351968537459167435', // 🎯-el-juego
+      sesionesMagicas: '1351968537459167436' // 🧚🏻sesiones-mágicas
+    },
+
+    // Psika G10 tiene categorías de prácticas (lunes-domingo) pero no categorías por embajador
+    // Los canales de prácticas están bajo la categoría "Prácticas" (1351968537459167437)
+    categoriasPorEmbajador: {},
+
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  },
+
   '1387738817208914043': { // Servidor de prueba
     nombre: 'Servidor de prueba',
 
@@ -133,22 +154,8 @@ export const CONFIG_SERVIDORES = {
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
     webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES,
     webhookInstagram: process.env.N8N_WEBHOOK_INSTA
-  },
-
-  '1351968535580114984': { // Psika G10 (nuevo servidor)
-    nombre: 'Psika G10',
-
-    canalesFijos: {
-      soporte: '1428263834023362650' // Canal de soporte (FAQ)
-    },
-
-    categoriasPorEmbajador: {},
-
-    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   }
 };
-
 
 
 
