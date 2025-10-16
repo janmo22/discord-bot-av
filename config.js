@@ -63,22 +63,18 @@ export const CONFIG_SERVIDORES = {
       }
     },
 
-
     // Webhooks
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
-
-
-
 
   '1349434394812616784': { // Servidor de G3
     nombre: 'Terapeuta Akae G3',
 
     // Canales fijos únicos
     canalesFijos: {
-      soporte: '1424773975023685682', 
-      celebracion: '1349434395005812866',     
+      soporte: '1424773975023685682',
+      celebracion: '1349434395005812866',
       subirMiVibra: '1349434395165065216',
       experiencias: '1349434395165065217'
     },
@@ -105,13 +101,9 @@ export const CONFIG_SERVIDORES = {
       }
     },
 
-
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
-
-
-
 
   '1387738817208914043': { // Servidor de prueba
     nombre: 'Servidor de prueba',
@@ -125,32 +117,49 @@ export const CONFIG_SERVIDORES = {
     // Categorías por embajador
     categoriasPorEmbajador: {
       embajadorPrueba: {
-        embajadora: '1392048227049799690'// Nuevo canal para feedback de dupla
+        embajadora: '1392048227049799690' // Nuevo canal para feedback de dupla
       }
     },
-
 
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
     webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES
   },
 
-  '1377586518310522900': {
+  '1377586518310522900': { // Servidor de pruebas hazloconflow
     nombre: 'Servidor de pruebas hazloconflow',
     canalesFijos: {
-      
       canalizaciones: '1392083652250439796', // Canal de canalizaciones
       faqs: '1377914869461815296', // Canal de faqs
       instagram: '1382031373484818554'
-
     },
     categoriasPorEmbajador: {},
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
     webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES,
     webhookInstagram: process.env.N8N_WEBHOOK_INSTA // Nuevo webhook para Instagram
+  },
+
+  '1351968535580114984': { // Psika G10 (nuevo servidor)
+    nombre: 'Psika G10',
+
+    // Canales fijos únicos
+    canalesFijos: {
+      soporte: '1428263834023362650' // ← canal de soporte donde se activa el bot de FAQs
+      // añade aquí otros fijos si los necesitas (celebracion, experiencias, etc.)
+    },
+
+    // Categorías por embajador (vacío de momento)
+    categoriasPorEmbajador: {
+      // ej.: cristina: { cat_embajadora: '...', cat_urgencias: '...', ... }
+    },
+
+    // Webhooks
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   }
 };
+
 
 
 
