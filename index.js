@@ -116,11 +116,11 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // ----------------- Lógica de ANÁLISIS (se mantiene tal cual) -----------------
+  // ----------------- Lógica de ANÁLISIS -----------------
   let shouldTriggerAnalisisWebhook = false;
 
-  // Reglas para 'Lector Akae G10'   //LOGOCA PAAR ANLSISI Y REPORTES G10/ AHOR AHEMO SCMABIADO A G3
-  if (guildId === '1349434394812616784') {   //G10 : 1343220392424247316
+  // Reglas para 'Terapeuta Akae G3'
+  if (guildId === '1349434394812616784') {
     // 1. Verificar si es uno de los canales fijos
     if (Object.values(config.canalesFijos || {}).includes(canalId)) {
       shouldTriggerAnalisisWebhook = true;
@@ -146,6 +146,26 @@ client.on('messageCreate', async (message) => {
           break;
         }
       }
+    }
+  }
+
+  // Reglas para 'Psika G10' (NUEVO)
+  if (guildId === '1351968535580114984') {
+    // 1. Verificar si es uno de los canales fijos (todos los canales fijos se analizan)
+    if (Object.values(config.canalesFijos || {}).includes(canalId)) {
+      shouldTriggerAnalisisWebhook = true;
+    }
+
+    // 2. Verificar si está en la categoría de Prácticas (lunes-domingo)
+    const categoriasPracticas = '1351968537459167437'; // Categoría "Prácticas"
+    if (categoriaId === categoriasPracticas) {
+      shouldTriggerAnalisisWebhook = true;
+    }
+
+    // 3. Verificar si está en la categoría "El Cielo"
+    const categoriaCielo = '1351968536955977901'; // Categoría "El Cielo"
+    if (categoriaId === categoriaCielo) {
+      shouldTriggerAnalisisWebhook = true;
     }
   }
 
@@ -196,13 +216,11 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // ----------------- Lógica de FAQ (AMPLIADA, sin quitar tu condición previa) -----------------
-  // Antes: solo disparaba FAQ si (faqs) o si era el soporte del G3.
-  // Ahora: además, dispara si el canal es 'soporte' en *cualquier* servidor (incluye hilos).
+  // ----------------- Lógica de FAQ -----------------
   if (
     (config.canalesFijos?.faqs && canalId === config.canalesFijos.faqs) ||
-    (guildId === '1349434394812616784' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) || // tu regla original
-    isSupportChannel(canal, config) // <-- NUEVO: soporte general para todos los servidores (ej. Psika G10)
+    (guildId === '1349434394812616784' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) ||
+    isSupportChannel(canal, config) // Soporte general para todos los servidores (incluye Psika G10)
   ) {
     try {
       console.log(`[DEBUG] Enviando a webhookFAQ: ${config.webhookFAQ}`);
