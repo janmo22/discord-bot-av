@@ -1,3 +1,4 @@
+// index.js
 import { Client, GatewayIntentBits, ChannelType } from 'discord.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
@@ -216,7 +217,7 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // ----------------- Lógica de FAQ -----------------
+  // ----------------- Lógica de FAQ (ahora incluye guild y guild_id) -----------------
   if (
     (config.canalesFijos?.faqs && canalId === config.canalesFijos.faqs) ||
     (guildId === '1349434394812616784' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) ||
@@ -224,13 +225,14 @@ client.on('messageCreate', async (message) => {
   ) {
     try {
       console.log(`[DEBUG] Enviando a webhookFAQ: ${config.webhookFAQ}`);
-      const res = await axios.post(config.webhookFAQ, {
-        question: message.content,
-        user: message.author.username,
-        channel_id: canalId,
-        message_id: message.id,
-        user_id: message.author.id
-      });
+
+      // Reutilizamos el payload completo para uniformidad y añadimos el campo específico 'question'
+      const faqPayload = {
+        ...payload,
+        question: message.content
+      };
+
+      const res = await axios.post(config.webhookFAQ, faqPayload);
       console.log(`[🤖] Enviado a FAQ webhook`);
       console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
     } catch (err) {
@@ -258,3 +260,4 @@ client.on('messageCreate', async (message) => {
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
+
