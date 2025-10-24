@@ -28,7 +28,7 @@ client.once('ready', () => {
     console.error('Error iniciando scheduler:', err.message);
   }
 
-  // Diagnóstico de variables críticas (opcional)
+  // Diagnóstico de variables críticas
   console.log('ENV N8N_WEBHOOK_FAQ:', process.env.N8N_WEBHOOK_FAQ ? 'OK' : 'UNDEFINED');
   console.log('ENV DISCORD_BOT_TOKEN:', process.env.DISCORD_BOT_TOKEN ? 'OK' : 'UNDEFINED');
 });
@@ -78,9 +78,17 @@ client.on('messageCreate', async (message) => {
   // 2. Verificar si está dentro de una categoría de embajador
   if (!tipo_canal && config.categoriasPorEmbajador) {
     for (const [nombreEmbajador, categorias] of Object.entries(config.categoriasPorEmbajador)) {
-      if (Object.values(categorias).includes(categoriaId)) {
+      // Verificar si es la categoría de la embajadora
+      if (categoriaId === categorias.cat_embajadora) {
         embajador = nombreEmbajador;
-        tipo_canal = canal.name; // usa el nombre real del canal
+        tipo_canal = 'categoria_embajadora';
+        break;
+      }
+      
+      // Verificar si es uno de los canales específicos
+      if (Object.values(categorias).includes(canalId)) {
+        embajador = nombreEmbajador;
+        tipo_canal = canal.name;
         break;
       }
     }
@@ -120,26 +128,29 @@ client.on('messageCreate', async (message) => {
   // ----------------- Lógica de ANÁLISIS -----------------
   let shouldTriggerAnalisisWebhook = false;
 
-  // Reglas para 'Terapeuta Akae G3'
+  // ========================================
+  // REGLAS PARA TERAPEUTA AKAE® G3
+  // ========================================
   if (guildId === '1349434394812616784') {
-    // 1. Verificar si es uno de los canales fijos
+    // 1. Verificar si es uno de los canales fijos (COMUNES)
     if (Object.values(config.canalesFijos || {}).includes(canalId)) {
       shouldTriggerAnalisisWebhook = true;
     }
 
-    // 2. Verificar canales y categorías de embajadores si no es un canal fijo
+    // 2. Verificar si está en alguna categoría de embajadora (PROPIOS)
     if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
       for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
-        // Verificar si está en la categoría de urgencias
-        if (embajadorData.urgencias && categoriaId === embajadorData.urgencias) {
+        // Verificar si es la categoría de la embajadora
+        if (categoriaId === embajadorData.cat_embajadora) {
           shouldTriggerAnalisisWebhook = true;
           break;
         }
-        // Verificar si es uno de los canales específicos del embajador
+        
+        // Verificar si es uno de los canales específicos
         const canalesEmbajador = [
-          embajadorData.canalizacion,
-          embajadorData.el_mar_de_dudas,
-          embajadorData.feedbackDupla
+          embajadorData.soytuembajadora,
+          embajadorData.elmardedudas,
+          embajadorData.feedbackdupla
         ].filter(Boolean);
 
         if (canalesEmbajador.includes(canalId)) {
@@ -150,27 +161,50 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // Reglas para 'Psika G10' (NUEVO)
+  // ========================================
+  // REGLAS PARA PSIKA® G10
+  // ========================================
   if (guildId === '1351968535580114984') {
-    // 1. Verificar si es uno de los canales fijos (todos los canales fijos se analizan)
+    // 1. Verificar si es uno de los canales fijos (COMUNES)
     if (Object.values(config.canalesFijos || {}).includes(canalId)) {
       shouldTriggerAnalisisWebhook = true;
     }
 
-    // 2. Verificar si está en la categoría de Prácticas (lunes-domingo)
-    const categoriasPracticas = '1351968537459167437'; // Categoría "Prácticas"
-    if (categoriaId === categoriasPracticas) {
-      shouldTriggerAnalisisWebhook = true;
+    // 2. Verificar si está en la categoría de Prácticas
+    if (!shouldTriggerAnalisisWebhook && config.categoriaPracticas) {
+      if (categoriaId === config.categoriaPracticas) {
+        shouldTriggerAnalisisWebhook = true;
+      }
     }
 
-    // 3. Verificar si está en la categoría "El Cielo"
-    const categoriaCielo = '1351968536955977901'; // Categoría "El Cielo"
-    if (categoriaId === categoriaCielo) {
-      shouldTriggerAnalisisWebhook = true;
+    // 3. Verificar si está en alguna categoría de embajadora (PROPIOS)
+    if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
+      for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
+        // Verificar si es la categoría de la embajadora
+        if (categoriaId === embajadorData.cat_embajadora) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+        
+        // Verificar si es uno de los canales específicos
+        const canalesEmbajador = [
+          embajadorData.soytuembajador,
+          embajadorData.soytuembajadora,
+          embajadorData.elmardedudas,
+          embajadorData.feedbackdupla
+        ].filter(Boolean);
+
+        if (canalesEmbajador.includes(canalId)) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+      }
     }
   }
 
-  // Reglas para 'Servidor de pruebas hazloconflow'
+  // ========================================
+  // REGLAS PARA SERVIDOR DE PRUEBAS HAZLOCONFLOW
+  // ========================================
   if (guildId === '1377586518310522900') {
     const canalesPermitidos = [
       config.canalesFijos?.canalizaciones,
@@ -221,7 +255,8 @@ client.on('messageCreate', async (message) => {
   if (
     (config.canalesFijos?.faqs && canalId === config.canalesFijos.faqs) ||
     (guildId === '1349434394812616784' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) ||
-    isSupportChannel(canal, config) // Soporte general para todos los servidores (incluye Psika G10)
+    (guildId === '1351968535580114984' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) ||
+    isSupportChannel(canal, config)
   ) {
     try {
       console.log(`[DEBUG] Enviando a webhookFAQ: ${config.webhookFAQ}`);
