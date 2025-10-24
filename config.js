@@ -1,100 +1,36 @@
 export const CONFIG_SERVIDORES = {
-  '1343220392424247316': { // Lector Akae G10
-    nombre: 'Lector Akae G10',
-
-    // Canales fijos únicos (por nombre lógico → ID)
-    canalesFijos: {
-      celebracion: '1343220393543995503',
-      subirMiVibra: '1343220393808498688',
-      experiencias: '1343220393808498689',
-      tameana: '1343220393808498690'
-    },
-
-    // Categorías por embajador
-    categoriasPorEmbajador: {
-      cristina: {
-        cat_embajadora: '1343220394039054347',
-        cat_urgencias: '1343631640441655376',
-        canalizacion: '1343220394039054349',
-        el_mar_de_dudas: '1343220394039054350',
-        feedbackDupla: '1343220394039054351'
-      },
-      clara: {
-        cat_embajadora: '1343220395410460853',
-        cat_urgencias: '1343632895159570472',
-        canalizacion: '1343220395972624395',
-        el_mar_de_dudas: '1343220395972624396',
-        feedbackDupla: '1343220395972624397'
-      },
-      esther: {
-        cat_embajadora: '1343220396874403927',
-        cat_urgencias: '1343635192962879559',
-        canalizacion: '1343220396874403930',
-        el_mar_de_dudas: '1343220396874403929',
-        feedbackDupla: '1343220397025263758'
-      },
-      cristinaC: {
-        cat_embajadora: '1343220397583110282',
-        cat_urgencias: '1343635323472842752',
-        canalizacion: '1343220397583110284',
-        el_mar_de_dudas: '1343220397851807844',
-        feedbackDupla: '1343220397851807845'
-      },
-      juanPablo: {
-        cat_embajadora: '1343220398795522150',
-        cat_urgencias: '1343635418620497931',
-        canalizacion: '1343220398795522152',
-        el_mar_de_dudas: '1343220398795522153',
-        feedbackDupla: '1343220398795522154'
-      },
-      alba: {
-        cat_embajadora: '1343535760774791250',
-        cat_urgencias: '1343635501286166660',
-        canalizacion: '1345074601918468147',
-        el_mar_de_dudas: '1343538729234595860',
-        feedbackDupla: '1343538761081815050'
-      },
-      angelo: {
-        cat_embajadora: '1343536834222886932',
-        cat_urgencias: '1343635706471256145',
-        canalizacion: '1345074645866643506',
-        el_mar_de_dudas: '1343539194093371432',
-        feedbackDupla: '1343539228503703552'
-      }
-    },
-
-    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
-  },
-
-  '1349434394812616784': { // Terapeuta Akae G3
-    nombre: 'Terapeuta Akae G3',
+  '1349434394812616784': { // Terapeuta Akae® G3
+    nombre: 'Terapeuta Akae® G3',
 
     canalesFijos: {
-      soporte: '1424773975023685682',
-      celebracion: '1349434395005812866',
-      subirMiVibra: '1349434395165065216',
-      experiencias: '1349434395165065217'
+      soporte: '1424773975023685682',      // 🚑-soporte
+      celebracion: '1349434395005812866',   // 🥳celebración
+      subirmivibra: '1349434395165065216',  // 💃subir-mi-vibra
+      experiencias: '1349434395165065217',  // 🚀experiencias
+      whereismydupla: '1349434395165065218', // 🧐where-is-my-dupla
+      revisando: '1349434395165065219',     // 🔎revisando
+      foto: '1349434395165065220',          // 📷-foto
+      sesionesmagicas: '1349434395165065221' // sesiones-mágicas💫
     },
 
     categoriasPorEmbajador: {
-      cristinaC: {
-        cat_embajadora: '1349434395165065225',
-        cat_urgencias: '1350881321970434190',
-        el_mar_de_dudas: '1349434395312001175',
-        feedbackDupla: '1349434395312001176'
-      },
-      juanPablo: {
+      embajadora1: {
         cat_embajadora: '1349434395165065222',
-        cat_urgencias: '1350881674657009674',
-        el_mar_de_dudas: '1349434395165065223',
-        feedbackDupla: '1349434395165065224'
+        soytuembajadora: '1418068899311784036',
+        elmardedudas: '1349434395165065223',
+        feedbackdupla: '1349434395165065224'
       },
-      mariaA: {
+      embajadora2: {
+        cat_embajadora: '1349434395165065225',
+        soytuembajadora: '1418081467120222309',
+        elmardedudas: '1349434395312001175',
+        feedbackdupla: '1349434395312001176'
+      },
+      embajadora3: {
         cat_embajadora: '1349434395312001177',
-        cat_urgencias: '1350881556968902737',
-        el_mar_de_dudas: '1349434395312001178',
-        feedbackDupla: '1349434395312001179'
+        soytuembajadora: '1418081517770510418',
+        elmardedudas: '1349434395312001178',
+        feedbackdupla: '1349434395312001179'
       }
     },
 
@@ -102,22 +38,48 @@ export const CONFIG_SERVIDORES = {
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
 
-  '1351968535580114984': { // Psika G10 (NUEVO)
-    nombre: 'Psika G10',
+  '1351968535580114984': { // Psika® G10
+    nombre: 'Psika® G10',
 
     canalesFijos: {
-      soporte: '1428263834023362650', // 🚑-soporte (FAQ)
-      celebracion: '1351968537459167902', // 🥳mis-logros
-      subirMiVibra: '1351968537459167903', // 💃subir-mi-vibra
-      experiencias: '1351968537459167904', // 🚀experiencias
-      elCasoAbierto: '1351968537459167433', // 🧐el-caso-abierto
-      elJuego: '1351968537459167435', // 🎯-el-juego
-      sesionesMagicas: '1351968537459167436' // 🧚🏻sesiones-mágicas
+      soporte: '1428263834023362650',        // 🚑-soporte (FAQ)
+      mislogros: '1351968536955977902',      // 🥳mis-logros
+      subirmivibra: '1351968536955977903',   // 💃subir-mi-vibra
+      experiencias: '1351968536955977904',   // 🚀experiencias
+      elcasoabierto: '1351968537459167433',  // 🧐el-caso-abierto
+      eljuego: '1351968537459167435',        // 🎯-el-juego
+      sesionesmagicas: '1351968537459167436' // 🧚🏻sesiones-mágicas
     },
 
-    // Psika G10 tiene categorías de prácticas (lunes-domingo) pero no categorías por embajador
-    // Los canales de prácticas están bajo la categoría "Prácticas" (1351968537459167437)
-    categoriasPorEmbajador: {},
+    // Categoría de prácticas (lunes-domingo)
+    categoriaPracticas: '1351968537459167437',
+
+    categoriasPorEmbajador: {
+      embajadora1: {
+        cat_embajadora: '1351968537958285409',
+        soytuembajador: '1351968540688781327',
+        elmardedudas: '1351968537958285410',
+        feedbackdupla: '1351968537958285411'
+      },
+      embajadora2: {
+        cat_embajadora: '1351968539128369226',
+        soytuembajadora: '1351968539128369227',
+        elmardedudas: '1351968539128369228',
+        feedbackdupla: '1351968539128369229'
+      },
+      embajadora3: {
+        cat_embajadora: '1351968542681202760',
+        soytuembajador: '1351968542681202761',
+        elmardedudas: '1351968542681202762',
+        feedbackdupla: '1351968542681202763'
+      },
+      embajadora4: {
+        cat_embajadora: '1351968544551731365',
+        soytuembajadora: '1351968544551731366',
+        elmardedudas: '1351968544551731367',
+        feedbackdupla: '1351968545088733245'
+      }
+    },
 
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
@@ -144,12 +106,15 @@ export const CONFIG_SERVIDORES = {
 
   '1377586518310522900': { // Servidor de pruebas hazloconflow
     nombre: 'Servidor de pruebas hazloconflow',
+    
     canalesFijos: {
       canalizaciones: '1392083652250439796',
       faqs: '1377914869461815296',
       instagram: '1382031373484818554'
     },
+    
     categoriasPorEmbajador: {},
+    
     webhookAnalisis: process.env.N8N_WEBHOOK_URL,
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ,
     webhookCanalizaciones: process.env.N8N_WEBHOOK_CANALIZACIONES,
