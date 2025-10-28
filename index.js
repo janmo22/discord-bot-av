@@ -52,6 +52,26 @@ function isSupportChannel(canal, config) {
   return false;
 }
 
+// ---------- AUXILIAR: detectar si el canal está bajo la categoría de Prácticas (G10) ----------
+function isPracticasCategory(canal, config, guild) {
+  const practicasCategoryId = config?.categoriaPracticas;
+  if (!practicasCategoryId) return false;
+
+  // Canal normal bajo la categoría de prácticas
+  if (canal.parentId === practicasCategoryId) return true;
+
+  // Si es un hilo, comprobar la categoría del canal padre
+  if (
+    canal.type === ChannelType.PublicThread ||
+    canal.type === ChannelType.PrivateThread ||
+    canal.type === ChannelType.AnnouncementThread
+  ) {
+    const parentChannel = guild.channels.cache.get(canal.parentId);
+    return parentChannel?.parentId === practicasCategoryId;
+  }
+  return false;
+}
+
 client.on('messageCreate', async (message) => {
   if (message.author.bot || !message.guild) return;
 
@@ -127,6 +147,8 @@ client.on('messageCreate', async (message) => {
 
   // ----------------- Lógica de ANÁLISIS -----------------
   let shouldTriggerAnalisisWebhook = false;
+  const isSupport = isSupportChannel(canal, config);
+  const isPracticas = guildId === '1351968535580114984' && isPracticasCategory(canal, config, message.guild);
 
   // ========================================
   // REGLAS PARA TERAPEUTA AKAE® G3
@@ -170,12 +192,7 @@ client.on('messageCreate', async (message) => {
       shouldTriggerAnalisisWebhook = true;
     }
 
-    // 2. Verificar si está en la categoría de Prácticas
-    if (!shouldTriggerAnalisisWebhook && config.categoriaPracticas) {
-      if (categoriaId === config.categoriaPracticas) {
-        shouldTriggerAnalisisWebhook = true;
-      }
-    }
+    // 2. Exclusión: la categoría de Prácticas NO activa análisis (se gestiona en el envío final)
 
     // 3. Verificar si está en alguna categoría de embajadora (PROPIOS)
     if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
@@ -216,8 +233,8 @@ client.on('messageCreate', async (message) => {
     }
   }
 
-  // ✅ Enviar al webhook de análisis SOLO si cumple las condiciones
-  if (shouldTriggerAnalisisWebhook) {
+  // ✅ Enviar al webhook de análisis SOLO si cumple las condiciones y NO es canal de soporte ni categoría de prácticas (G10)
+  if (shouldTriggerAnalisisWebhook && !isSupport && !isPracticas) {
     if (!config.webhookAnalisis) {
       console.error(`❌ No está definido el webhookAnalisis para ${guildId} (${config.nombre})`);
     } else {

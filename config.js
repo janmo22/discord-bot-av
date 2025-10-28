@@ -3,7 +3,7 @@ export const CONFIG_SERVIDORES = {
     nombre: 'Terapeuta Akae® G3',
 
     canalesFijos: {
-      soporte: '1424773975023685682',      // 🚑-soporte
+      soporte: '1424773975023685682',      // 🚑-soporte (no analsis solo faqs)
       celebracion: '1349434395005812866',   // 🥳celebración
       subirmivibra: '1349434395165065216',  // 💃subir-mi-vibra
       experiencias: '1349434395165065217',  // 🚀experiencias
@@ -14,23 +14,23 @@ export const CONFIG_SERVIDORES = {
     },
 
     categoriasPorEmbajador: {
-      embajadora1: {
+      juanPablo: {
         cat_embajadora: '1349434395165065222',
-        soytuembajadora: '1418068899311784036',
-        elmardedudas: '1349434395165065223',
-        feedbackdupla: '1349434395165065224'
+        //soytuembajadora: '1418068899311784036',
+        //elmardedudas: '1349434395165065223',
+        //feedbackdupla: '1349434395165065224'
       },
-      embajadora2: {
+      cristinaC: {
         cat_embajadora: '1349434395165065225',
-        soytuembajadora: '1418081467120222309',
-        elmardedudas: '1349434395312001175',
-        feedbackdupla: '1349434395312001176'
+        //soytuembajadora: '1418081467120222309',
+        //elmardedudas: '1349434395312001175',
+        //feedbackdupla: '1349434395312001176'
       },
-      embajadora3: {
+      mariaA: {
         cat_embajadora: '1349434395312001177',
-        soytuembajadora: '1418081517770510418',
-        elmardedudas: '1349434395312001178',
-        feedbackdupla: '1349434395312001179'
+        //soytuembajadora: '1418081517770510418',
+        //elmardedudas: '1349434395312001178',
+        //feedbackdupla: '1349434395312001179'
       }
     },
 
@@ -42,7 +42,7 @@ export const CONFIG_SERVIDORES = {
     nombre: 'Psika® G10',
 
     canalesFijos: {
-      soporte: '1428263834023362650',        // 🚑-soporte (FAQ)
+      soporte: '1428263834023362650',        // 🚑-soporte (FAQ) (solo faqs no analisis)
       mislogros: '1351968536955977902',      // 🥳mis-logros
       subirmivibra: '1351968536955977903',   // 💃subir-mi-vibra
       experiencias: '1351968536955977904',   // 🚀experiencias
@@ -55,29 +55,29 @@ export const CONFIG_SERVIDORES = {
     categoriaPracticas: '1351968537459167437',
 
     categoriasPorEmbajador: {
-      embajadora1: {
+      AbgeloB_JuditB: {
         cat_embajadora: '1351968537958285409',
-        soytuembajador: '1351968540688781327',
-        elmardedudas: '1351968537958285410',
-        feedbackdupla: '1351968537958285411'
+        //soytuembajador: '1351968540688781327',
+        //elmardedudas: '1351968537958285410',
+        //feedbackdupla: '1351968537958285411'
       },
-      embajadora2: {
+      CristinaH_BarbaraP: {
         cat_embajadora: '1351968539128369226',
-        soytuembajadora: '1351968539128369227',
-        elmardedudas: '1351968539128369228',
-        feedbackdupla: '1351968539128369229'
+        //soytuembajadora: '1351968539128369227',
+        //elmardedudas: '1351968539128369228',
+        //feedbackdupla: '1351968539128369229'
       },
-      embajadora3: {
+      JuanPablo_CristinaL: {
         cat_embajadora: '1351968542681202760',
-        soytuembajador: '1351968542681202761',
-        elmardedudas: '1351968542681202762',
-        feedbackdupla: '1351968542681202763'
+        //soytuembajador: '1351968542681202761',
+        //elmardedudas: '1351968542681202762',
+        //feedbackdupla: '1351968542681202763'
       },
-      embajadora4: {
+      CristinaC_InesM: {
         cat_embajadora: '1351968544551731365',
-        soytuembajadora: '1351968544551731366',
-        elmardedudas: '1351968544551731367',
-        feedbackdupla: '1351968545088733245'
+        //soytuembajadora: '1351968544551731366',
+        //elmardedudas: '1351968544551731367',
+        //feedbackdupla: '1351968545088733245'
       }
     },
 
