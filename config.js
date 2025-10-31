@@ -85,6 +85,103 @@ export const CONFIG_SERVIDORES = {
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
 
+  // '1351968535580114984': { // Bhimbira 
+  //   nombre: 'Bhimbira',
+
+  //   canalesFijos: {
+  //     soporte: '1428263834023362650',        // 🚑-soporte (FAQ) (solo faqs no analisis)
+  //     mislogros: '1351968536955977902',      // 🥳mis-logros
+  //     subirmivibra: '1351968536955977903',   // 💃subir-mi-vibra
+  //     experiencias: '1351968536955977904',   // 🚀experiencias
+  //     elcasoabierto: '1351968537459167433',  // 🧐el-caso-abierto
+  //     eljuego: '1351968537459167435',        // 🎯-el-juego
+  //     sesionesmagicas: '1351968537459167436' // 🧚🏻sesiones-mágicas
+  //   },
+
+  //   // Categoría de prácticas (lunes-domingo)
+  //   categoriaPracticas: '1351968537459167437',
+
+  //   categoriasPorEmbajador: {
+  //     AbgeloB_JuditB: {
+  //       cat_embajadora: '1351968537958285409',
+  //       //soytuembajador: '1351968540688781327',
+  //       //elmardedudas: '1351968537958285410',
+  //       //feedbackdupla: '1351968537958285411'
+  //     },
+  //     CristinaH_BarbaraP: {
+  //       cat_embajadora: '1351968539128369226',
+  //       //soytuembajadora: '1351968539128369227',
+  //       //elmardedudas: '1351968539128369228',
+  //       //feedbackdupla: '1351968539128369229'
+  //     },
+  //     JuanPablo_CristinaL: {
+  //       cat_embajadora: '1351968542681202760',
+  //       //soytuembajador: '1351968542681202761',
+  //       //elmardedudas: '1351968542681202762',
+  //       //feedbackdupla: '1351968542681202763'
+  //     },
+  //     CristinaC_InesM: {
+  //       cat_embajadora: '1351968544551731365',
+  //       //soytuembajadora: '1351968544551731366',
+  //       //elmardedudas: '1351968544551731367',
+  //       //feedbackdupla: '1351968545088733245'
+  //     }
+  //   },
+
+  //   webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+  //   webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  // },
+
+  // '1351968535580114984': { // Lector Akae 
+  //   nombre: 'Lector Akae',
+
+  //   canalesFijos: {
+  //     soporte: '1428263834023362650',        // 🚑-soporte (FAQ) (solo faqs no analisis)
+  //     mislogros: '1351968536955977902',      // 🥳mis-logros
+  //     subirmivibra: '1351968536955977903',   // 💃subir-mi-vibra
+  //     experiencias: '1351968536955977904',   // 🚀experiencias
+  //     elcasoabierto: '1351968537459167433',  // 🧐el-caso-abierto
+  //     eljuego: '1351968537459167435',        // 🎯-el-juego
+  //     sesionesmagicas: '1351968537459167436' // 🧚🏻sesiones-mágicas
+  //   },
+
+  //   // Categoría de prácticas (lunes-domingo)
+  //   categoriaPracticas: '1351968537459167437',
+
+  //   categoriasPorEmbajador: {
+  //     AbgeloB_JuditB: {
+  //       cat_embajadora: '1351968537958285409',
+  //       //soytuembajador: '1351968540688781327',
+  //       //elmardedudas: '1351968537958285410',
+  //       //feedbackdupla: '1351968537958285411'
+  //     },
+  //     CristinaH_BarbaraP: {
+  //       cat_embajadora: '1351968539128369226',
+  //       //soytuembajadora: '1351968539128369227',
+  //       //elmardedudas: '1351968539128369228',
+  //       //feedbackdupla: '1351968539128369229'
+  //     },
+  //     JuanPablo_CristinaL: {
+  //       cat_embajadora: '1351968542681202760',
+  //       //soytuembajador: '1351968542681202761',
+  //       //elmardedudas: '1351968542681202762',
+  //       //feedbackdupla: '1351968542681202763'
+  //     },
+  //     CristinaC_InesM: {
+  //       cat_embajadora: '1351968544551731365',
+  //       //soytuembajadora: '1351968544551731366',
+  //       //elmardedudas: '1351968544551731367',
+  //       //feedbackdupla: '1351968545088733245'
+  //     }
+  //   },
+
+  //   webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+  //   webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  // },
+
+
+
+
   '1387738817208914043': { // Servidor de prueba
     nombre: 'Servidor de prueba',
 

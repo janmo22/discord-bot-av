@@ -203,7 +203,7 @@ client.on('messageCreate', async (message) => {
           break;
         }
         
-        // Verificar si es uno de los canales específicos
+        // Verificar si es uno de los canales específicos/en proincipio no ese esta udando ahora mismo pero en un futuro puede ser util.
         const canalesEmbajador = [
           embajadorData.soytuembajador,
           embajadorData.soytuembajadora,
@@ -218,6 +218,85 @@ client.on('messageCreate', async (message) => {
       }
     }
   }
+
+
+  // // ========================================
+  // // REGLAS PARA Bhimbira 
+  // // ========================================
+  // if (guildId === '1351968535580114984') {
+  //   // 1. Verificar si es uno de los canales fijos (COMUNES)
+  //   if (Object.values(config.canalesFijos || {}).includes(canalId)) {
+  //     shouldTriggerAnalisisWebhook = true;
+  //   }
+
+  //   // 2. Exclusión: la categoría de Prácticas NO activa análisis (se gestiona en el envío final)
+
+  //   // 3. Verificar si está en alguna categoría de embajadora (PROPIOS)
+  //   if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
+  //     for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
+  //       // Verificar si es la categoría de la embajadora
+  //       if (categoriaId === embajadorData.cat_embajadora) {
+  //         shouldTriggerAnalisisWebhook = true;
+  //         break;
+  //       }
+        
+  //       // Verificar si es uno de los canales específicos/en proincipio no ese esta udando ahora mismo pero en un futuro puede ser util.
+  //       const canalesEmbajador = [
+  //         embajadorData.soytuembajador,
+  //         embajadorData.soytuembajadora,
+  //         embajadorData.elmardedudas,
+  //         embajadorData.feedbackdupla
+  //       ].filter(Boolean);
+
+  //       if (canalesEmbajador.includes(canalId)) {
+  //         shouldTriggerAnalisisWebhook = true;
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
+
+  //   // ========================================
+  // // REGLAS PARA Lector Akae 
+  // // ========================================
+  // if (guildId === '1351968535580114984') {
+  //   // 1. Verificar si es uno de los canales fijos (COMUNES)
+  //   if (Object.values(config.canalesFijos || {}).includes(canalId)) {
+  //     shouldTriggerAnalisisWebhook = true;
+  //   }
+
+  //   // 2. Exclusión: la categoría de Prácticas NO activa análisis (se gestiona en el envío final)
+
+  //   // 3. Verificar si está en alguna categoría de embajadora (PROPIOS)
+  //   if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
+  //     for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
+  //       // Verificar si es la categoría de la embajadora
+  //       if (categoriaId === embajadorData.cat_embajadora) {
+  //         shouldTriggerAnalisisWebhook = true;
+  //         break;
+  //       }
+        
+  //       // Verificar si es uno de los canales específicos/en proincipio no ese esta udando ahora mismo pero en un futuro puede ser util.
+  //       const canalesEmbajador = [
+  //         embajadorData.soytuembajador,
+  //         embajadorData.soytuembajadora,
+  //         embajadorData.elmardedudas,
+  //         embajadorData.feedbackdupla
+  //       ].filter(Boolean);
+
+  //       if (canalesEmbajador.includes(canalId)) {
+  //         shouldTriggerAnalisisWebhook = true;
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }
+
+
+
+
+
+
 
   // ========================================
   // REGLAS PARA SERVIDOR DE PRUEBAS HAZLOCONFLOW
