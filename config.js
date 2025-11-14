@@ -14,19 +14,19 @@ export const CONFIG_SERVIDORES = {
     },
 
     categoriasPorEmbajador: {
-      juanPablo: {
+      juan_pablo78: {
         cat_embajadora: '1349434395165065222',
         //soytuembajadora: '1418068899311784036',
         //elmardedudas: '1349434395165065223',
         //feedbackdupla: '1349434395165065224'
       },
-      cristinaC: {
+      crirty: {
         cat_embajadora: '1349434395165065225',
         //soytuembajadora: '1418081467120222309',
         //elmardedudas: '1349434395312001175',
         //feedbackdupla: '1349434395312001176'
       },
-      mariaA: {
+      mariaad1122: {
         cat_embajadora: '1349434395312001177',
         //soytuembajadora: '1418081517770510418',
         //elmardedudas: '1349434395312001178',
