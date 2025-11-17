@@ -219,6 +219,43 @@ client.on('messageCreate', async (message) => {
     }
   }
 
+  // ========================================
+  // REGLAS PARA BHIMBIRA® G6
+  // ========================================
+  if (guildId === '1411656675408220211') {
+    // 1. Verificar si es uno de los canales fijos (COMUNES)
+    if (Object.values(config.canalesFijos || {}).includes(canalId)) {
+      shouldTriggerAnalisisWebhook = true;
+    }
+
+    // 2. Verificar si está en alguna categoría de embajadora (PROPIOS)
+    if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
+      for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
+        const categoriasPermitidas = [
+          embajadorData.cat_embajadora,
+          embajadorData.cat_urgencias
+        ].filter(Boolean);
+
+        if (categoriasPermitidas.includes(categoriaId)) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+
+        const canalesEmbajador = [
+          embajadorData.soytuembajador,
+          embajadorData.soytuembajadora,
+          embajadorData.elmardedudas,
+          embajadorData.feedbackdupla
+        ].filter(Boolean);
+
+        if (canalesEmbajador.includes(canalId)) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+      }
+    }
+  }
+
 
   // // ========================================
   // // REGLAS PARA Bhimbira 
