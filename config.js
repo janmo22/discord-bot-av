@@ -134,6 +134,12 @@ export const CONFIG_SERVIDORES = {
         //soytuembajadora: '1351968544551731366',
         //elmardedudas: '1351968544551731367',
         //feedbackdupla: '1351968545088733245'
+      },
+      CristinaH: {
+        cat_embajadora: '1411656676326510692',
+        //soytuembajadora: '1351968544551731366',
+        //elmardedudas: '1351968544551731367',
+        //feedbackdupla: '1351968545088733245'
       }
     },
 
