@@ -193,7 +193,6 @@ export const CONFIG_SERVIDORES = {
 
 
 
-
   '1387738817208914043': { // Servidor de prueba
     nombre: 'Servidor de prueba',
 
