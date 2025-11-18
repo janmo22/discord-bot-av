@@ -79,11 +79,28 @@ client.on('messageCreate', async (message) => {
   const canal = message.channel;
   const canalId = canal.id;
   const categoriaId = canal.parentId;
+  const isThreadChannel = (
+    canal.type === ChannelType.PublicThread ||
+    canal.type === ChannelType.PrivateThread ||
+    canal.type === ChannelType.AnnouncementThread
+  );
+  const threadParentChannel = isThreadChannel ? message.guild.channels.cache.get(canal.parentId) : null;
+  const threadParentCategoryId = threadParentChannel?.parentId || null;
 
   const config = CONFIG_SERVIDORES[guildId];
   if (!config) {
     console.warn(`⚠️ No hay configuración para el servidor ${message.guild.name} (${guildId})`);
     return;
+  }
+
+  if (guildId === '1411656675408220211') {
+    console.log('[DEBUG_BHIMBIRA] Mensaje recibido', {
+      canal: `${canal.name} (${canalId})`,
+      canalType: canal.type,
+      categoriaId,
+      threadParentChannel: threadParentChannel ? `${threadParentChannel.name} (${threadParentChannel.id})` : 'none',
+      threadParentCategoryId
+    });
   }
 
   let tipo_canal = null;
@@ -253,6 +270,17 @@ client.on('messageCreate', async (message) => {
           break;
         }
       }
+    }
+
+    if (!shouldTriggerAnalisisWebhook) {
+      console.log('[DEBUG_BHIMBIRA] Condiciones no cumplidas', {
+        canalId,
+        categoriaId,
+        threadParentChannelId: threadParentChannel?.id || null,
+        threadParentCategoryId,
+        tipo_canal,
+        embajador
+      });
     }
   }
 
