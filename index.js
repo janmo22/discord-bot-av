@@ -7,6 +7,13 @@ import { startScheduler } from './scheduler.js';
 
 dotenv.config();
 
+// -------------------------------
+// CONFIGURACIÓN DEL CLIENTE DISCORD
+// -------------------------------
+// Intents necesarios:
+// - Guilds: conocer estados/conexión de los servidores
+// - GuildMessages: escuchar mensajes de texto estándar
+// - MessageContent: acceder al texto para mandarlo al webhook
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -15,11 +22,57 @@ const client = new Client({
   ]
 });
 
+// ID fijo del servidor Bhimbira® G6 (usa foros/hilos, requiere trato especial)
+const BHIMBIRA_GUILD_ID = '1411656675408220211';
+
+// -------------------------------
+// UTILIDADES PARA HILOS (THREADS)
+// -------------------------------
+/**
+ * Une al bot a un hilo si todavía no se ha unido.
+ * Discord solo envía messageCreate de un hilo cuando el bot forma parte del hilo.
+ */
+async function joinThreadIfNeeded(thread) {
+  if (!thread || thread.joined || thread.archived || !thread.joinable) return;
+
+  try {
+    await thread.join();
+    console.log(`[THREAD_JOIN] Unido a hilo ${thread.name} (${thread.id}) en ${thread.guild?.name || 'guild desconocida'}`);
+  } catch (err) {
+    console.warn(`[THREAD_JOIN] No se pudo unir al hilo ${thread?.id}: ${err.message}`);
+  }
+}
+
+/**
+ * Garantiza que el bot está unido a todos los hilos activos de un servidor.
+ * Se usa al iniciar para Bhimbira® G6.
+ */
+async function ensureThreadsJoinedForGuild(guildId) {
+  const guild = client.guilds.cache.get(guildId);
+  if (!guild) {
+    console.warn(`[THREAD_JOIN] Guild ${guildId} no encontrada en cache`);
+    return;
+  }
+
+  try {
+    const activeThreads = await guild.channels.fetchActiveThreads();
+    activeThreads.threads.forEach(joinThreadIfNeeded);
+  } catch (err) {
+    console.warn(`[THREAD_JOIN] Error obteniendo hilos activos en ${guild.name}: ${err.message}`);
+  }
+}
+
+// -------------------------------
+// EVENTO READY: se ejecuta una vez tras iniciar sesión
+// -------------------------------
 client.once('ready', () => {
   console.log(`✅ Bot conectado como ${client.user.tag}`);
   client.guilds.cache.forEach(guild => {
     console.log(`🛰️ Conectado a: ${guild.name} (ID: ${guild.id})`);
   });
+
+  // Bhimbira® G6 usa canales tipo foro: nos unimos a todos los hilos activos
+  ensureThreadsJoinedForGuild(BHIMBIRA_GUILD_ID);
 
   // Iniciar scheduler
   try {
@@ -33,7 +86,10 @@ client.once('ready', () => {
   console.log('ENV DISCORD_BOT_TOKEN:', process.env.DISCORD_BOT_TOKEN ? 'OK' : 'UNDEFINED');
 });
 
-// ---------- AUXILIAR: detectar canal de soporte (incluye hilos bajo ese canal) ----------
+// -------------------------------
+// AUXILIAR: detectar canal de soporte (incluye hilos bajo ese canal)
+// Estos canales se excluyen del análisis y se envían como FAQ.
+// -------------------------------
 function isSupportChannel(canal, config) {
   const soporteId = config?.canalesFijos?.soporte;
   if (!soporteId) return false;
@@ -52,7 +108,10 @@ function isSupportChannel(canal, config) {
   return false;
 }
 
-// ---------- AUXILIAR: detectar si el canal está bajo la categoría de Prácticas (G10) ----------
+// -------------------------------
+// AUXILIAR: detectar si pertenece a la categoría de Prácticas (solo Psika G10)
+// Sirve para excluir esos mensajes de los envíos de análisis.
+// -------------------------------
 function isPracticasCategory(canal, config, guild) {
   const practicasCategoryId = config?.categoriaPracticas;
   if (!practicasCategoryId) return false;
@@ -72,6 +131,10 @@ function isPracticasCategory(canal, config, guild) {
   return false;
 }
 
+// -------------------------------
+// EVENTO PRINCIPAL: messageCreate
+// Aquí se construye el payload y se decide si va a análisis, FAQ, etc.
+// -------------------------------
 client.on('messageCreate', async (message) => {
   if (message.author.bot || !message.guild) return;
 
@@ -79,6 +142,7 @@ client.on('messageCreate', async (message) => {
   const canal = message.channel;
   const canalId = canal.id;
   const categoriaId = canal.parentId;
+  // Si es un hilo guardamos referencias a su canal padre y a la categoría del padre.
   const isThreadChannel = (
     canal.type === ChannelType.PublicThread ||
     canal.type === ChannelType.PrivateThread ||
@@ -86,6 +150,12 @@ client.on('messageCreate', async (message) => {
   );
   const threadParentChannel = isThreadChannel ? message.guild.channels.cache.get(canal.parentId) : null;
   const threadParentCategoryId = threadParentChannel?.parentId || null;
+
+  // Listas de IDs candidatas: incluyen tanto el hilo como su canal/categoría padre.
+  const candidateChannelIds = [canalId];
+  if (threadParentChannel?.id) candidateChannelIds.push(threadParentChannel.id);
+  const candidateCategoryIds = [categoriaId];
+  if (threadParentCategoryId) candidateCategoryIds.push(threadParentCategoryId);
 
   const config = CONFIG_SERVIDORES[guildId];
   if (!config) {
@@ -107,7 +177,7 @@ client.on('messageCreate', async (message) => {
   let embajador = null;
 
   // 1. Verificar si es un canal fijo
-  const canalFijo = Object.entries(config.canalesFijos || {}).find(([_, id]) => id === canalId);
+  const canalFijo = Object.entries(config.canalesFijos || {}).find(([_, id]) => candidateChannelIds.includes(id));
   if (canalFijo) {
     tipo_canal = canalFijo[0];
   }
@@ -116,14 +186,14 @@ client.on('messageCreate', async (message) => {
   if (!tipo_canal && config.categoriasPorEmbajador) {
     for (const [nombreEmbajador, categorias] of Object.entries(config.categoriasPorEmbajador)) {
       // Verificar si es la categoría de la embajadora
-      if (categoriaId === categorias.cat_embajadora) {
+      if (categorias.cat_embajadora && candidateCategoryIds.includes(categorias.cat_embajadora)) {
         embajador = nombreEmbajador;
         tipo_canal = 'categoria_embajadora';
         break;
       }
       
       // Verificar si es uno de los canales específicos
-      if (Object.values(categorias).includes(canalId)) {
+      if (Object.values(categorias).some(id => id && candidateChannelIds.includes(id))) {
         embajador = nombreEmbajador;
         tipo_canal = canal.name;
         break;
@@ -131,6 +201,7 @@ client.on('messageCreate', async (message) => {
     }
   }
 
+  // Payload base que se manda a los distintos webhooks (análisis, FAQ, etc.)
   const payload = {
     user: message.author.username,
     user_id: message.author.id,
@@ -148,6 +219,7 @@ client.on('messageCreate', async (message) => {
     reply_to: null
   };
 
+  // Si es respuesta a otro mensaje, adjuntamos los datos del original
   if (message.reference?.messageId) {
     try {
       const repliedMessage = await message.fetchReference();
@@ -172,7 +244,7 @@ client.on('messageCreate', async (message) => {
   // ========================================
   if (guildId === '1349434394812616784') {
     // 1. Verificar si es uno de los canales fijos (COMUNES)
-    if (Object.values(config.canalesFijos || {}).includes(canalId)) {
+    if (Object.values(config.canalesFijos || {}).some(id => candidateChannelIds.includes(id))) {
       shouldTriggerAnalisisWebhook = true;
     }
 
@@ -180,7 +252,7 @@ client.on('messageCreate', async (message) => {
     if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
       for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
         // Verificar si es la categoría de la embajadora
-        if (categoriaId === embajadorData.cat_embajadora) {
+        if (embajadorData.cat_embajadora && candidateCategoryIds.includes(embajadorData.cat_embajadora)) {
           shouldTriggerAnalisisWebhook = true;
           break;
         }
@@ -192,7 +264,7 @@ client.on('messageCreate', async (message) => {
           embajadorData.feedbackdupla
         ].filter(Boolean);
 
-        if (canalesEmbajador.includes(canalId)) {
+        if (canalesEmbajador.some(id => candidateChannelIds.includes(id))) {
           shouldTriggerAnalisisWebhook = true;
           break;
         }
@@ -205,7 +277,7 @@ client.on('messageCreate', async (message) => {
   // ========================================
   if (guildId === '1351968535580114984') {
     // 1. Verificar si es uno de los canales fijos (COMUNES)
-    if (Object.values(config.canalesFijos || {}).includes(canalId)) {
+    if (Object.values(config.canalesFijos || {}).some(id => candidateChannelIds.includes(id))) {
       shouldTriggerAnalisisWebhook = true;
     }
 
@@ -215,7 +287,7 @@ client.on('messageCreate', async (message) => {
     if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
       for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
         // Verificar si es la categoría de la embajadora
-        if (categoriaId === embajadorData.cat_embajadora) {
+        if (embajadorData.cat_embajadora && candidateCategoryIds.includes(embajadorData.cat_embajadora)) {
           shouldTriggerAnalisisWebhook = true;
           break;
         }
@@ -228,7 +300,7 @@ client.on('messageCreate', async (message) => {
           embajadorData.feedbackdupla
         ].filter(Boolean);
 
-        if (canalesEmbajador.includes(canalId)) {
+        if (canalesEmbajador.some(id => candidateChannelIds.includes(id))) {
           shouldTriggerAnalisisWebhook = true;
           break;
         }
@@ -241,7 +313,7 @@ client.on('messageCreate', async (message) => {
   // ========================================
   if (guildId === '1411656675408220211') {
     // 1. Verificar si es uno de los canales fijos (COMUNES)
-    if (Object.values(config.canalesFijos || {}).includes(canalId)) {
+    if (Object.values(config.canalesFijos || {}).some(id => candidateChannelIds.includes(id))) {
       shouldTriggerAnalisisWebhook = true;
     }
 
@@ -253,7 +325,7 @@ client.on('messageCreate', async (message) => {
           embajadorData.cat_urgencias
         ].filter(Boolean);
 
-        if (categoriasPermitidas.includes(categoriaId)) {
+        if (categoriasPermitidas.some(id => id && candidateCategoryIds.includes(id))) {
           shouldTriggerAnalisisWebhook = true;
           break;
         }
@@ -265,7 +337,7 @@ client.on('messageCreate', async (message) => {
           embajadorData.feedbackdupla
         ].filter(Boolean);
 
-        if (canalesEmbajador.includes(canalId)) {
+        if (canalesEmbajador.some(id => candidateChannelIds.includes(id))) {
           shouldTriggerAnalisisWebhook = true;
           break;
         }
@@ -278,6 +350,8 @@ client.on('messageCreate', async (message) => {
         categoriaId,
         threadParentChannelId: threadParentChannel?.id || null,
         threadParentCategoryId,
+        candidateChannelIds,
+        candidateCategoryIds,
         tipo_canal,
         embajador
       });
@@ -374,7 +448,7 @@ client.on('messageCreate', async (message) => {
       config.canalesFijos?.faqs
     ].filter(Boolean);
 
-    if (canalesPermitidos.includes(canalId)) {
+    if (canalesPermitidos.some(id => candidateChannelIds.includes(id))) {
       shouldTriggerAnalisisWebhook = true;
     }
   }
@@ -455,6 +529,19 @@ client.on('messageCreate', async (message) => {
       }
     }
   }
+});
+
+// -------------------------------
+// EVENTOS DE HILOS: unirnos automáticamente a los nuevos/actualizados en Bhimbira
+// -------------------------------
+client.on('threadCreate', (thread) => {
+  if (thread.guild?.id !== BHIMBIRA_GUILD_ID) return;
+  joinThreadIfNeeded(thread);
+});
+
+client.on('threadUpdate', (_oldThread, newThread) => {
+  if (newThread.guild?.id !== BHIMBIRA_GUILD_ID) return;
+  joinThreadIfNeeded(newThread);
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);
