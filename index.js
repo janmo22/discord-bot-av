@@ -1,5 +1,5 @@
 // index.js
-import { Client, GatewayIntentBits, ChannelType } from 'discord.js';
+import { Client, GatewayIntentBits, ChannelType, Partials } from 'discord.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import { CONFIG_SERVIDORES } from './config.js';
@@ -18,8 +18,10 @@ const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
-  ]
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMessageReactions
+  ],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
 // ID fijo del servidor Bhimbira® G6 (usa foros/hilos, requiere trato especial)
@@ -131,6 +133,60 @@ function isPracticasCategory(canal, config, guild) {
   return false;
 }
 
+async function buildMessagePayload(message) {
+  const payload = {
+    user: message.author?.username || 'unknown',
+    user_id: message.author?.id || null,
+    content: message.content,
+    message_id: message.id,
+    channel: message.channel?.name || 'unknown',
+    channel_id: message.channelId,
+    guild: message.guild?.name || 'unknown',
+    guild_id: message.guild?.id || null,
+    category_id: message.channel?.parentId || null,
+    embajador: null,
+    tipo_canal: null,
+    timestamp: new Date().toISOString(),
+    is_reply: false,
+    reply_to: null,
+    message_url: message.guild ? `https://discord.com/channels/${message.guild.id}/${message.channelId}/${message.id}` : null
+  };
+
+  if (message.reference?.messageId) {
+    try {
+      const repliedMessage = await message.fetchReference();
+      payload.is_reply = true;
+      payload.reply_to = {
+        author: repliedMessage.author?.username || 'unknown',
+        content: repliedMessage.content,
+        id: repliedMessage.id
+      };
+    } catch (error) {
+      console.warn('⚠️ No se pudo obtener el mensaje original:', error.message);
+    }
+  }
+
+  return payload;
+}
+
+async function triggerAnalisisWebhook(config, payload, extraFields = {}, logLabel = 'análisis') {
+  if (!config.webhookAnalisis) {
+    console.error(`❌ No está definido el webhookAnalisis para ${config.nombre}`);
+    return;
+  }
+
+  const finalPayload = { ...payload, ...extraFields };
+  try {
+    console.log(`[DEBUG] Enviando a webhookAnalisis: ${config.webhookAnalisis}`);
+    const res = await axios.post(config.webhookAnalisis, finalPayload);
+    console.log(`[📊] Enviado a ${logLabel} (${finalPayload.embajador || 'global'} - ${finalPayload.tipo_canal || 'sin tipo'})`);
+    console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
+  } catch (err) {
+    console.error(`❌ Error al enviar al webhook de ${logLabel}:`, err.message);
+    console.error(err.response?.data || 'Sin respuesta del servidor');
+  }
+}
+
 // -------------------------------
 // EVENTO PRINCIPAL: messageCreate
 // Aquí se construye el payload y se decide si va a análisis, FAQ, etc.
@@ -202,37 +258,10 @@ client.on('messageCreate', async (message) => {
   }
 
   // Payload base que se manda a los distintos webhooks (análisis, FAQ, etc.)
-  const payload = {
-    user: message.author.username,
-    user_id: message.author.id,
-    content: message.content,
-    message_id: message.id,
-    channel: canal.name,
-    channel_id: canalId,
-    guild: message.guild.name,
-    guild_id: guildId,
-    category_id: categoriaId,
-    embajador,
-    tipo_canal,
-    timestamp: new Date().toISOString(),
-    is_reply: false,
-    reply_to: null
-  };
-
-  // Si es respuesta a otro mensaje, adjuntamos los datos del original
-  if (message.reference?.messageId) {
-    try {
-      const repliedMessage = await message.fetchReference();
-      payload.is_reply = true;
-      payload.reply_to = {
-        author: repliedMessage.author.username,
-        content: repliedMessage.content,
-        id: repliedMessage.id
-      };
-    } catch (error) {
-      console.warn('⚠️ No se pudo obtener el mensaje original:', error.message);
-    }
-  }
+  const payload = await buildMessagePayload(message);
+  payload.category_id = threadParentCategoryId || categoriaId || null;
+  payload.embajador = embajador;
+  payload.tipo_canal = tipo_canal;
 
   // ----------------- Lógica de ANÁLISIS -----------------
   let shouldTriggerAnalisisWebhook = false;
@@ -455,19 +484,24 @@ client.on('messageCreate', async (message) => {
 
   // ✅ Enviar al webhook de análisis SOLO si cumple las condiciones y NO es canal de soporte ni categoría de prácticas (G10)
   if (shouldTriggerAnalisisWebhook && !isSupport && !isPracticas) {
-    if (!config.webhookAnalisis) {
-      console.error(`❌ No está definido el webhookAnalisis para ${guildId} (${config.nombre})`);
-    } else {
-      try {
-        console.log(`[DEBUG] Enviando a webhookAnalisis: ${config.webhookAnalisis}`);
-        const res = await axios.post(config.webhookAnalisis, payload);
-        console.log(`[📊] Enviado a análisis (${embajador || 'global'} - ${tipo_canal || 'sin tipo'})`);
-        console.log(`[✅ Webhook status: ${res.status}] Respuesta:`, res.data);
-      } catch (err) {
-        console.error('❌ Error al enviar al webhook de análisis:', err.message);
-        console.error(err.response?.data || 'Sin respuesta del servidor');
-      }
-    }
+    await triggerAnalisisWebhook(config, payload);
+  }
+
+  if (isPracticas) {
+    const attachments = Array.from(message.attachments.values()).map(att => ({
+      id: att.id,
+      url: att.url,
+      name: att.name,
+      contentType: att.contentType
+    }));
+
+    const practicasExtra = {
+      sheet_tab: 'Practicas',
+      record_type: isThreadChannel ? 'thread_message' : 'message',
+      attachments
+    };
+
+    await triggerAnalisisWebhook(config, payload, practicasExtra, 'Prácticas');
   }
 
   // ----------------- Lógica de CANALIZACIONES (se mantiene) -----------------
@@ -534,15 +568,73 @@ client.on('messageCreate', async (message) => {
 // -------------------------------
 // EVENTOS DE HILOS: unirnos automáticamente a los nuevos/actualizados en Bhimbira
 // -------------------------------
+function threadBelongsToPracticas(thread) {
+  const guildId = thread.guild?.id;
+  if (!guildId) return false;
+  const config = CONFIG_SERVIDORES[guildId];
+  if (!config?.categoriaPracticas) return false;
+  const parentChannel = thread.parent;
+  if (!parentChannel) return false;
+  return parentChannel.parentId === config.categoriaPracticas;
+}
+
 client.on('threadCreate', (thread) => {
-  if (thread.guild?.id !== BHIMBIRA_GUILD_ID) return;
-  joinThreadIfNeeded(thread);
+  const guildId = thread.guild?.id;
+  if (!guildId) return;
+  if (guildId === BHIMBIRA_GUILD_ID || threadBelongsToPracticas(thread)) {
+    joinThreadIfNeeded(thread);
+  }
 });
 
 client.on('threadUpdate', (_oldThread, newThread) => {
-  if (newThread.guild?.id !== BHIMBIRA_GUILD_ID) return;
-  joinThreadIfNeeded(newThread);
+  const guildId = newThread.guild?.id;
+  if (!guildId) return;
+  if (guildId === BHIMBIRA_GUILD_ID || threadBelongsToPracticas(newThread)) {
+    joinThreadIfNeeded(newThread);
+  }
 });
+
+async function handlePracticasReaction(reaction, user, action) {
+  if (user.bot) return;
+  try {
+    if (reaction.partial) {
+      await reaction.fetch();
+    }
+    const message = reaction.message;
+    if (message.partial) {
+      await message.fetch();
+    }
+    if (!message.guild) return;
+
+    const config = CONFIG_SERVIDORES[message.guild.id];
+    if (!config) return;
+    if (!isPracticasCategory(message.channel, config, message.guild)) return;
+
+    const payload = await buildMessagePayload(message);
+    payload.category_id = message.channel?.parentId || null;
+
+    const practicasExtra = {
+      sheet_tab: 'Practicas',
+      record_type: 'reaction',
+      reaction: {
+        action,
+        emoji: reaction.emoji.name || reaction.emoji.id,
+        emoji_id: reaction.emoji.id,
+        emoji_name: reaction.emoji.name,
+        reactor_id: user.id,
+        reactor: user.username,
+        count: reaction.count
+      }
+    };
+
+    await triggerAnalisisWebhook(config, payload, practicasExtra, `Prácticas (${action})`);
+  } catch (err) {
+    console.error('❌ Error registrando reacción de prácticas:', err.message);
+  }
+}
+
+client.on('messageReactionAdd', (reaction, user) => handlePracticasReaction(reaction, user, 'added'));
+client.on('messageReactionRemove', (reaction, user) => handlePracticasReaction(reaction, user, 'removed'));
 
 client.login(process.env.DISCORD_BOT_TOKEN);
 
