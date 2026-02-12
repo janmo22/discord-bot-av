@@ -147,7 +147,96 @@ export const CONFIG_SERVIDORES = {
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
 
-  // '1351968535580114984': { // Lector Akae 
+  '1442604968954691777': { // Lector Akae® G11
+    nombre: 'Lector Akae® G11',
+
+    canalesFijos: {
+      soporte: '1469388458756935792',              // 🚑-soporte (solo FAQs, no análisis)
+      celebracion: '1442604970061861016',           // 🥳celebración
+      subirmivibra: '1442604970061861017',          // 💃subir-mi-vibra
+      experiencias: '1442604970061861018',          // 🚀experiencias
+      tameana: '1442604970061861019',               // 💎tameana
+      ovnis: '1442604970061861020',                 // 🛸ovnis
+      revisando: '1442604970061861021',             // 🔎revisando
+      lenguajedeluz: '1442604970061861023',         // 🗣lenguaje-de-luz
+      dibujos: '1446803907560083567',               // 🎨dibujos
+      sesionesmagicas: '1446806127260991549'        // 🧚🏻sesiones-mágicas
+    },
+
+    // Categoría de prácticas DUPLAS (lunes-domingo)
+    categoriaPracticas: '1442604970061861024',
+
+    categoriasPorEmbajador: {
+      CristinaH: {
+        cat_embajadora: '1442604970242474082',
+        //soytuembajadora: '1442604970242474083',
+        //canalizacion: '1442604970242474084',
+        //elmardedudas: '1442604970401726626',
+        //feedbackdupla: '1442604970401726627'
+      },
+      Ines: {
+        cat_embajadora: '1442604970594537577',
+        //soytuembajadora: '1442604970594537578',
+        //canalizacion: '1442604970594537579',
+        //elmardedudas: '1442604970594537580',
+        //feedbackdupla: '1442604970594537581'
+      },
+      Judit: {
+        cat_embajadora: '1442604971123019835',
+        //soytuembajadora: '1442604971123019836',
+        //elmardedudas: '1442604971123019837',
+        //canalizacion: '1442604971404296212',
+        //feedbackdupla: '1442604971404296213'
+      },
+      CristinaC: {
+        cat_embajadora: '1442604971739582492',
+        //soytuembajadora: '1442604971739582493',
+        //canalizacion: '1442604971739582494',
+        //elmardedudas: '1442604972008276198',
+        //feedbackdupla: '1442604972008276199'
+      },
+      Barbara: {
+        cat_embajadora: '1442604972008276201',
+        //soytuembajador: '1442604972008276202',
+        //canalizacion: '1442604972008276203',
+        //elmardedudas: '1442604972008276204',
+        //feedbackdupla: '1442604972008276205'
+      },
+      Maria: {
+        cat_embajadora: '1442604972356145320',
+        //soytuembajadora: '1442604972356145321',
+        //canalizacion: '1442604972356145322',
+        //elmardedudas: '1442604972356145323',
+        //feedbackdupla: '1442604972356145324'
+      },
+      Angelo: {
+        cat_embajadora: '1442604972914249784',
+        //soytuembajador: '1442604972914249785',
+        //canalizacion: '1442604972914249786',
+        //elmardedudas: '1442604972914249787',
+        //feedbackdupla: '1442604972914249788'
+      },
+      JuditB: {
+        cat_embajadora: '1442604973220299012',
+        //soytuembajadora: '1442604973220299013',
+        //canalizacion: '1442604973220299014',
+        //elmardedudas: '1442604973362778172',
+        //feedbackdupla: '1442604973362778173'
+      },
+      JuanPablo: {
+        cat_embajadora: '1466724362475278461',
+        //soytuembajador: '1466726291511447552',
+        //canalizacion: '1466726332036812841',
+        //elmardedudas: '1466726351095595174',
+        //feedbackdupla: '1466726379449094327'
+      }
+    },
+
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  },
+
+  // '1351968535580114984': { // Lector Akae (ANTIGUO - COMENTADO)
   //   nombre: 'Lector Akae',
 
   //   canalesFijos: {
@@ -235,7 +324,5 @@ export const CONFIG_SERVIDORES = {
     webhookInstagram: process.env.N8N_WEBHOOK_INSTA
   }
 };
-
-
 
 
