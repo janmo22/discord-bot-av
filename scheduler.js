@@ -72,7 +72,7 @@ export function startScheduler(client) {
 
   // ========================================
   // LECTOR AKAE® G11 - Canales de canalización (uno por embajador)
-  // Cierre: sábado 00:00 | Apertura: lunes 08:00
+  // Cierre: viernes 20:00 | Apertura: lunes 08:00
   // ========================================
   const lectorId = '1442604968954691777';
   const lectorConfig = CONFIG_SERVIDORES[lectorId];
@@ -144,9 +144,9 @@ export function startScheduler(client) {
         }
       }
 
-      // Cerrar sábado 00:00, abrir lunes 08:00
-      cron.schedule('0 0 * * SAT', () => {
-        console.log('[scheduler] Ejecutando cierre canalizaciones Lector Akae G11 (sábado 00:00)');
+      // Cerrar viernes 20:00, abrir lunes 08:00
+      cron.schedule('0 20 * * FRI', () => {
+        console.log('[scheduler] Ejecutando cierre canalizaciones Lector Akae G11 (viernes 20:00)');
         closeCanalizacionesLector();
       }, { timezone: 'Europe/Madrid' });
 
