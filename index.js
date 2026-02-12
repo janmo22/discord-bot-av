@@ -26,6 +26,8 @@ const client = new Client({
 
 // ID fijo del servidor Bhimbira® G6 (usa foros/hilos, requiere trato especial)
 const BHIMBIRA_GUILD_ID = '1411656675408220211';
+// ID fijo del servidor Lector Akae® G11 (mezcla texto normal + foros en DUPLAS)
+const LECTOR_AKAE_GUILD_ID = '1442604968954691777';
 
 // -------------------------------
 // UTILIDADES PARA HILOS (THREADS)
@@ -75,6 +77,9 @@ client.once('ready', () => {
 
   // Bhimbira® G6 usa canales tipo foro: nos unimos a todos los hilos activos
   ensureThreadsJoinedForGuild(BHIMBIRA_GUILD_ID);
+
+  // Lector Akae® G11: unirse a hilos activos (DUPLAS usa foros)
+  ensureThreadsJoinedForGuild(LECTOR_AKAE_GUILD_ID);
 
   // Iniciar scheduler
   try {
@@ -266,7 +271,7 @@ client.on('messageCreate', async (message) => {
   // ----------------- Lógica de ANÁLISIS -----------------
   let shouldTriggerAnalisisWebhook = false;
   const isSupport = isSupportChannel(canal, config);
-  const isPracticas = guildId === '1351968535580114984' && isPracticasCategory(canal, config, message.guild);
+  const isPracticas = (guildId === '1351968535580114984' || guildId === LECTOR_AKAE_GUILD_ID) && isPracticasCategory(canal, config, message.guild);
 
   // ========================================
   // REGLAS PARA TERAPEUTA AKAE® G3
@@ -384,6 +389,43 @@ client.on('messageCreate', async (message) => {
         tipo_canal,
         embajador
       });
+    }
+  }
+
+  // ========================================
+  // REGLAS PARA LECTOR AKAE® G11
+  // ========================================
+  if (guildId === LECTOR_AKAE_GUILD_ID) {
+    // 1. Verificar si es uno de los canales fijos (COMUNES)
+    if (Object.values(config.canalesFijos || {}).some(id => candidateChannelIds.includes(id))) {
+      shouldTriggerAnalisisWebhook = true;
+    }
+
+    // 2. Exclusión: la categoría de Prácticas (DUPLAS) NO activa análisis (se gestiona en el envío final)
+
+    // 3. Verificar si está en alguna categoría de embajador/a (PROPIOS)
+    if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
+      for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
+        // Verificar si es la categoría del embajador/a
+        if (embajadorData.cat_embajadora && candidateCategoryIds.includes(embajadorData.cat_embajadora)) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+        
+        // Verificar si es uno de los canales específicos (por si se usan en el futuro)
+        const canalesEmbajador = [
+          embajadorData.soytuembajador,
+          embajadorData.soytuembajadora,
+          embajadorData.canalizacion,
+          embajadorData.elmardedudas,
+          embajadorData.feedbackdupla
+        ].filter(Boolean);
+
+        if (canalesEmbajador.some(id => candidateChannelIds.includes(id))) {
+          shouldTriggerAnalisisWebhook = true;
+          break;
+        }
+      }
     }
   }
 
@@ -527,6 +569,7 @@ client.on('messageCreate', async (message) => {
     (config.canalesFijos?.faqs && canalId === config.canalesFijos.faqs) ||
     (guildId === '1349434394812616784' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) ||
     (guildId === '1351968535580114984' && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) ||
+    (guildId === LECTOR_AKAE_GUILD_ID && config.canalesFijos?.soporte && canalId === config.canalesFijos.soporte) ||
     isSupportChannel(canal, config)
   ) {
     try {
@@ -581,7 +624,7 @@ function threadBelongsToPracticas(thread) {
 client.on('threadCreate', (thread) => {
   const guildId = thread.guild?.id;
   if (!guildId) return;
-  if (guildId === BHIMBIRA_GUILD_ID || threadBelongsToPracticas(thread)) {
+  if (guildId === BHIMBIRA_GUILD_ID || guildId === LECTOR_AKAE_GUILD_ID || threadBelongsToPracticas(thread)) {
     joinThreadIfNeeded(thread);
   }
 });
@@ -589,7 +632,7 @@ client.on('threadCreate', (thread) => {
 client.on('threadUpdate', (_oldThread, newThread) => {
   const guildId = newThread.guild?.id;
   if (!guildId) return;
-  if (guildId === BHIMBIRA_GUILD_ID || threadBelongsToPracticas(newThread)) {
+  if (guildId === BHIMBIRA_GUILD_ID || guildId === LECTOR_AKAE_GUILD_ID || threadBelongsToPracticas(newThread)) {
     joinThreadIfNeeded(newThread);
   }
 });
@@ -637,4 +680,3 @@ client.on('messageReactionAdd', (reaction, user) => handlePracticasReaction(reac
 client.on('messageReactionRemove', (reaction, user) => handlePracticasReaction(reaction, user, 'removed'));
 
 client.login(process.env.DISCORD_BOT_TOKEN);
-
