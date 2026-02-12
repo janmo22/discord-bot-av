@@ -396,19 +396,34 @@ client.on('messageCreate', async (message) => {
   // REGLAS PARA LECTOR AKAE® G11
   // ========================================
   if (guildId === LECTOR_AKAE_GUILD_ID) {
+    console.log('[DEBUG_LECTOR] Mensaje recibido', {
+      canal: `${canal.name} (${canalId})`,
+      canalType: canal.type,
+      categoriaId,
+      threadParentChannel: threadParentChannel ? `${threadParentChannel.name} (${threadParentChannel.id})` : 'none',
+      threadParentCategoryId,
+      candidateChannelIds,
+      candidateCategoryIds,
+      canalesFijosIds: Object.entries(config.canalesFijos || {}),
+      isSupport,
+      isPracticas
+    });
+
     // 1. Verificar si es uno de los canales fijos (COMUNES)
     if (Object.values(config.canalesFijos || {}).some(id => candidateChannelIds.includes(id))) {
       shouldTriggerAnalisisWebhook = true;
+      console.log('[DEBUG_LECTOR] ✅ Match en canalesFijos');
     }
 
     // 2. Exclusión: la categoría de Prácticas (DUPLAS) NO activa análisis (se gestiona en el envío final)
 
     // 3. Verificar si está en alguna categoría de embajador/a (PROPIOS)
     if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
-      for (const embajadorData of Object.values(config.categoriasPorEmbajador)) {
+      for (const [nombreEmb, embajadorData] of Object.entries(config.categoriasPorEmbajador)) {
         // Verificar si es la categoría del embajador/a
         if (embajadorData.cat_embajadora && candidateCategoryIds.includes(embajadorData.cat_embajadora)) {
           shouldTriggerAnalisisWebhook = true;
+          console.log(`[DEBUG_LECTOR] ✅ Match en categoría embajador: ${nombreEmb}`);
           break;
         }
         
@@ -423,9 +438,23 @@ client.on('messageCreate', async (message) => {
 
         if (canalesEmbajador.some(id => candidateChannelIds.includes(id))) {
           shouldTriggerAnalisisWebhook = true;
+          console.log(`[DEBUG_LECTOR] ✅ Match en canal específico embajador: ${nombreEmb}`);
           break;
         }
       }
+    }
+
+    if (!shouldTriggerAnalisisWebhook) {
+      console.log('[DEBUG_LECTOR] ❌ NO se cumplió ninguna condición para análisis', {
+        canalId,
+        categoriaId,
+        threadParentCategoryId,
+        candidateChannelIds,
+        candidateCategoryIds,
+        tipo_canal,
+        embajador,
+        categoriasEmbajador: Object.entries(config.categoriasPorEmbajador || {}).map(([k, v]) => `${k}: ${v.cat_embajadora}`)
+      });
     }
   }
 
