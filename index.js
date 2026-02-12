@@ -243,13 +243,20 @@ client.on('messageCreate', async (message) => {
     tipo_canal = canalFijo[0];
   }
 
-  // 2. Verificar si está dentro de una categoría de embajador
+  // 2. Verificar si está dentro de una categoría de embajador (incluye urgencias)
   if (!tipo_canal && config.categoriasPorEmbajador) {
     for (const [nombreEmbajador, categorias] of Object.entries(config.categoriasPorEmbajador)) {
       // Verificar si es la categoría de la embajadora
       if (categorias.cat_embajadora && candidateCategoryIds.includes(categorias.cat_embajadora)) {
         embajador = nombreEmbajador;
         tipo_canal = 'categoria_embajadora';
+        break;
+      }
+
+      // Verificar si es la categoría de urgencias
+      if (categorias.cat_urgencias && candidateCategoryIds.includes(categorias.cat_urgencias)) {
+        embajador = nombreEmbajador;
+        tipo_canal = 'urgencias';
         break;
       }
       
@@ -404,7 +411,6 @@ client.on('messageCreate', async (message) => {
       threadParentCategoryId,
       candidateChannelIds,
       candidateCategoryIds,
-      canalesFijosIds: Object.entries(config.canalesFijos || {}),
       isSupport,
       isPracticas
     });
@@ -417,17 +423,22 @@ client.on('messageCreate', async (message) => {
 
     // 2. Exclusión: la categoría de Prácticas (DUPLAS) NO activa análisis (se gestiona en el envío final)
 
-    // 3. Verificar si está en alguna categoría de embajador/a (PROPIOS)
+    // 3. Verificar si está en alguna categoría de embajador/a o urgencias (PROPIOS)
     if (!shouldTriggerAnalisisWebhook && config.categoriasPorEmbajador) {
       for (const [nombreEmb, embajadorData] of Object.entries(config.categoriasPorEmbajador)) {
-        // Verificar si es la categoría del embajador/a
-        if (embajadorData.cat_embajadora && candidateCategoryIds.includes(embajadorData.cat_embajadora)) {
+        // Verificar si es la categoría del embajador/a o de urgencias
+        const categoriasPermitidas = [
+          embajadorData.cat_embajadora,
+          embajadorData.cat_urgencias
+        ].filter(Boolean);
+
+        if (categoriasPermitidas.some(id => candidateCategoryIds.includes(id))) {
           shouldTriggerAnalisisWebhook = true;
-          console.log(`[DEBUG_LECTOR] ✅ Match en categoría embajador: ${nombreEmb}`);
+          console.log(`[DEBUG_LECTOR] ✅ Match en categoría embajador/urgencias: ${nombreEmb}`);
           break;
         }
         
-        // Verificar si es uno de los canales específicos (por si se usan en el futuro)
+        // Verificar si es uno de los canales específicos
         const canalesEmbajador = [
           embajadorData.soytuembajador,
           embajadorData.soytuembajadora,
@@ -453,7 +464,7 @@ client.on('messageCreate', async (message) => {
         candidateCategoryIds,
         tipo_canal,
         embajador,
-        categoriasEmbajador: Object.entries(config.categoriasPorEmbajador || {}).map(([k, v]) => `${k}: ${v.cat_embajadora}`)
+        categoriasEmbajador: Object.entries(config.categoriasPorEmbajador || {}).map(([k, v]) => `${k}: emb=${v.cat_embajadora} urg=${v.cat_urgencias}`)
       });
     }
   }
