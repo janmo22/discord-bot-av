@@ -166,69 +166,91 @@ export const CONFIG_SERVIDORES = {
     // Categoría de prácticas DUPLAS (lunes-domingo)
     categoriaPracticas: '1442604970061861024',
 
+    // IDs de los canales de canalización (para cierre/apertura scheduler)
+    canalesCanalizacion: [
+      '1442604970242474084',  // canalización CristinaH
+      '1442604970594537579',  // canalización Ines
+      '1442604971404296212',  // canalización Judit
+      '1442604971739582494',  // canalización CristinaC
+      '1442604972008276203',  // canalización Barbara
+      '1442604972356145322',  // canalización Maria
+      '1442604972914249786',  // canalización Angelo
+      '1442604973220299014',  // canalización JuditB
+      '1466726332036812841'   // canalización JuanPablo
+    ],
+
     categoriasPorEmbajador: {
       CristinaH: {
         cat_embajadora: '1442604970242474082',
-        //soytuembajadora: '1442604970242474083',
-        //canalizacion: '1442604970242474084',
-        //elmardedudas: '1442604970401726626',
-        //feedbackdupla: '1442604970401726627'
+        cat_urgencias: '1446843840446337225',       // 🤕 URGENCIAS CRISTINA H
+        soytuembajadora: '1442604970242474083',
+        canalizacion: '1442604970242474084',
+        elmardedudas: '1442604970401726626',
+        feedbackdupla: '1442604970401726627'
       },
       Ines: {
         cat_embajadora: '1442604970594537577',
-        //soytuembajadora: '1442604970594537578',
-        //canalizacion: '1442604970594537579',
-        //elmardedudas: '1442604970594537580',
-        //feedbackdupla: '1442604970594537581'
+        cat_urgencias: '1446847678586683402',       // 🤕 URGENCIAS INES
+        soytuembajadora: '1442604970594537578',
+        canalizacion: '1442604970594537579',
+        elmardedudas: '1442604970594537580',
+        feedbackdupla: '1442604970594537581'
       },
       Judit: {
         cat_embajadora: '1442604971123019835',
-        //soytuembajadora: '1442604971123019836',
-        //elmardedudas: '1442604971123019837',
-        //canalizacion: '1442604971404296212',
-        //feedbackdupla: '1442604971404296213'
+        cat_urgencias: '1446847734509342853',       // 🤕 URGENCIAS JUDIT
+        soytuembajadora: '1442604971123019836',
+        elmardedudas: '1442604971123019837',
+        canalizacion: '1442604971404296212',
+        feedbackdupla: '1442604971404296213'
       },
       CristinaC: {
         cat_embajadora: '1442604971739582492',
-        //soytuembajadora: '1442604971739582493',
-        //canalizacion: '1442604971739582494',
-        //elmardedudas: '1442604972008276198',
-        //feedbackdupla: '1442604972008276199'
+        cat_urgencias: '1446846051234353242',       // 🤕 URGENCIAS CRISTINA C
+        soytuembajadora: '1442604971739582493',
+        canalizacion: '1442604971739582494',
+        elmardedudas: '1442604972008276198',
+        feedbackdupla: '1442604972008276199'
       },
       Barbara: {
         cat_embajadora: '1442604972008276201',
-        //soytuembajador: '1442604972008276202',
-        //canalizacion: '1442604972008276203',
-        //elmardedudas: '1442604972008276204',
-        //feedbackdupla: '1442604972008276205'
+        cat_urgencias: '1446847804734439424',       // 🤕 URGENCIAS BARBARA
+        soytuembajador: '1442604972008276202',
+        canalizacion: '1442604972008276203',
+        elmardedudas: '1442604972008276204',
+        feedbackdupla: '1442604972008276205'
       },
       Maria: {
         cat_embajadora: '1442604972356145320',
-        //soytuembajadora: '1442604972356145321',
-        //canalizacion: '1442604972356145322',
-        //elmardedudas: '1442604972356145323',
-        //feedbackdupla: '1442604972356145324'
+        cat_urgencias: '1446847574920265799',       // 🤕 URGENCIAS MARIA
+        soytuembajadora: '1442604972356145321',
+        canalizacion: '1442604972356145322',
+        elmardedudas: '1442604972356145323',
+        feedbackdupla: '1442604972356145324'
       },
       Angelo: {
         cat_embajadora: '1442604972914249784',
-        //soytuembajador: '1442604972914249785',
-        //canalizacion: '1442604972914249786',
-        //elmardedudas: '1442604972914249787',
-        //feedbackdupla: '1442604972914249788'
+        cat_urgencias: '1446847023079886912',       // 🤕 URGENCIAS ANGELO
+        soytuembajador: '1442604972914249785',
+        canalizacion: '1442604972914249786',
+        elmardedudas: '1442604972914249787',
+        feedbackdupla: '1442604972914249788'
       },
       JuditB: {
         cat_embajadora: '1442604973220299012',
-        //soytuembajadora: '1442604973220299013',
-        //canalizacion: '1442604973220299014',
-        //elmardedudas: '1442604973362778172',
-        //feedbackdupla: '1442604973362778173'
+        cat_urgencias: '1446847877140713664',       // 🤕 URGENCIAS JUDIT B
+        soytuembajadora: '1442604973220299013',
+        canalizacion: '1442604973220299014',
+        elmardedudas: '1442604973362778172',
+        feedbackdupla: '1442604973362778173'
       },
       JuanPablo: {
         cat_embajadora: '1466724362475278461',
-        //soytuembajador: '1466726291511447552',
-        //canalizacion: '1466726332036812841',
-        //elmardedudas: '1466726351095595174',
-        //feedbackdupla: '1466726379449094327'
+        cat_urgencias: '1466724486798905551',       // 🤕 URGENCIAS JUAN PABLO
+        soytuembajador: '1466726291511447552',
+        canalizacion: '1466726332036812841',
+        elmardedudas: '1466726351095595174',
+        feedbackdupla: '1466726379449094327'
       }
     },
 
@@ -324,5 +346,4 @@ export const CONFIG_SERVIDORES = {
     webhookInstagram: process.env.N8N_WEBHOOK_INSTA
   }
 };
-
 
