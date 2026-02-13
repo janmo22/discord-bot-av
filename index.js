@@ -243,20 +243,13 @@ client.on('messageCreate', async (message) => {
     tipo_canal = canalFijo[0];
   }
 
-  // 2. Verificar si está dentro de una categoría de embajador (incluye urgencias)
+  // 2. Verificar si está dentro de una categoría de embajador
   if (!tipo_canal && config.categoriasPorEmbajador) {
     for (const [nombreEmbajador, categorias] of Object.entries(config.categoriasPorEmbajador)) {
       // Verificar si es la categoría de la embajadora
       if (categorias.cat_embajadora && candidateCategoryIds.includes(categorias.cat_embajadora)) {
         embajador = nombreEmbajador;
         tipo_canal = 'categoria_embajadora';
-        break;
-      }
-
-      // Verificar si es la categoría de urgencias
-      if (categorias.cat_urgencias && candidateCategoryIds.includes(categorias.cat_urgencias)) {
-        embajador = nombreEmbajador;
-        tipo_canal = 'urgencias';
         break;
       }
       
