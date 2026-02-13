@@ -346,4 +346,3 @@ export const CONFIG_SERVIDORES = {
     webhookInstagram: process.env.N8N_WEBHOOK_INSTA
   }
 };
-
