@@ -96,20 +96,17 @@ export function startScheduler(client) {
           }
 
           try {
-            await channel.permissionOverwrites.edit(guild.roles.everyone, { SEND_MESSAGES: false });
+            // Enviar mensaje de cierre ANTES de quitar permisos
+            await channel.send('Hola @everyone Recordad que a partir de ahora no se pueden escribir canalizaciones. ¡Que tengáis un buen fin de semana!');
+          } catch (err) {
+            console.error(`[scheduler] Error enviando aviso de cierre en ${channel.name}:`, err.message);
+          }
+
+          try {
+            await channel.permissionOverwrites.edit(guild.roles.everyone, { SendMessages: false });
             console.log(`[scheduler] ✅ Cerrado canal canalización: ${channel.name} (${chId})`);
           } catch (err) {
             console.error(`[scheduler] ❌ Error cerrando ${channel.name} (${chId}):`, err.message);
-          }
-        }
-
-        // Enviar aviso solo en el primer canal que se pueda
-        const primerCanal = guild.channels.cache.get(canalesCanalizacion[0]);
-        if (primerCanal) {
-          try {
-            await primerCanal.send('Los canales de canalización se cierran durante el fin de semana. Se volverán a abrir el lunes a las 08:00.');
-          } catch (err) {
-            console.error('[scheduler] Error enviando aviso de cierre Lector Akae:', err.message);
           }
         }
       }
@@ -126,20 +123,17 @@ export function startScheduler(client) {
           }
 
           try {
-            await channel.permissionOverwrites.edit(guild.roles.everyone, { SEND_MESSAGES: true });
+            await channel.permissionOverwrites.edit(guild.roles.everyone, { SendMessages: true });
             console.log(`[scheduler] ✅ Abierto canal canalización: ${channel.name} (${chId})`);
           } catch (err) {
             console.error(`[scheduler] ❌ Error abriendo ${channel.name} (${chId}):`, err.message);
           }
-        }
 
-        // Enviar aviso solo en el primer canal
-        const primerCanal = guild.channels.cache.get(canalesCanalizacion[0]);
-        if (primerCanal) {
           try {
-            await primerCanal.send('Buenos días, los canales de canalización vuelven a estar abiertos.');
+            // Enviar mensaje de apertura DESPUÉS de dar permisos
+            await channel.send('Hola @everyone Esperamos que hayáis tenido un buen fin de semana. ¡Ya podéis volver a escribir canalizaciones!');
           } catch (err) {
-            console.error('[scheduler] Error enviando aviso de apertura Lector Akae:', err.message);
+            console.error(`[scheduler] Error enviando aviso de apertura en ${channel.name}:`, err.message);
           }
         }
       }
