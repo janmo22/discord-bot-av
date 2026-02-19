@@ -3,34 +3,25 @@ export const CONFIG_SERVIDORES = {
     nombre: 'Terapeuta Akae® G3',
 
     canalesFijos: {
-      soporte: '1424773975023685682',      // 🚑-soporte (no analsis solo faqs)
-      celebracion: '1349434395005812866',   // 🥳celebración
-      subirmivibra: '1349434395165065216',  // 💃subir-mi-vibra
-      experiencias: '1349434395165065217',  // 🚀experiencias
-      whereismydupla: '1349434395165065218', // 🧐where-is-my-dupla
-      revisando: '1349434395165065219',     // 🔎revisando
-      foto: '1349434395165065220',          // 📷-foto
-      sesionesmagicas: '1349434395165065221' // sesiones-mágicas💫
+      soporte: '1424773975023685682',
+      celebracion: '1349434395005812866',
+      subirmivibra: '1349434395165065216',
+      experiencias: '1349434395165065217',
+      whereismydupla: '1349434395165065218',
+      revisando: '1349434395165065219',
+      foto: '1349434395165065220',
+      sesionesmagicas: '1349434395165065221'
     },
 
     categoriasPorEmbajador: {
       juan_pablo78: {
         cat_embajadora: '1349434395165065222',
-        //soytuembajadora: '1418068899311784036',
-        //elmardedudas: '1349434395165065223',
-        //feedbackdupla: '1349434395165065224'
       },
       crirty: {
         cat_embajadora: '1349434395165065225',
-        //soytuembajadora: '1418081467120222309',
-        //elmardedudas: '1349434395312001175',
-        //feedbackdupla: '1349434395312001176'
       },
       mariaad1122: {
         cat_embajadora: '1349434395312001177',
-        //soytuembajadora: '1418081517770510418',
-        //elmardedudas: '1349434395312001178',
-        //feedbackdupla: '1349434395312001179'
       }
     },
 
@@ -42,42 +33,29 @@ export const CONFIG_SERVIDORES = {
     nombre: 'Psika® G10',
 
     canalesFijos: {
-      soporte: '1428263834023362650',        // 🚑-soporte (FAQ) (solo faqs no analisis)
-      mislogros: '1351968536955977902',      // 🥳mis-logros
-      subirmivibra: '1351968536955977903',   // 💃subir-mi-vibra
-      experiencias: '1351968536955977904',   // 🚀experiencias
-      elcasoabierto: '1351968537459167433',  // 🧐el-caso-abierto
-      eljuego: '1351968537459167435',        // 🎯-el-juego
-      sesionesmagicas: '1351968537459167436' // 🧚🏻sesiones-mágicas
+      soporte: '1428263834023362650',
+      mislogros: '1351968536955977902',
+      subirmivibra: '1351968536955977903',
+      experiencias: '1351968536955977904',
+      elcasoabierto: '1351968537459167433',
+      eljuego: '1351968537459167435',
+      sesionesmagicas: '1351968537459167436'
     },
 
-    // Categoría de prácticas (lunes-domingo)
     categoriaPracticas: '1351968537459167437',
 
     categoriasPorEmbajador: {
       AbgeloB_JuditB: {
         cat_embajadora: '1351968537958285409',
-        //soytuembajador: '1351968540688781327',
-        //elmardedudas: '1351968537958285410',
-        //feedbackdupla: '1351968537958285411'
       },
       CristinaH_BarbaraP: {
         cat_embajadora: '1351968539128369226',
-        //soytuembajadora: '1351968539128369227',
-        //elmardedudas: '1351968539128369228',
-        //feedbackdupla: '1351968539128369229'
       },
       JuanPablo_CristinaL: {
         cat_embajadora: '1351968542681202760',
-        //soytuembajador: '1351968542681202761',
-        //elmardedudas: '1351968542681202762',
-        //feedbackdupla: '1351968542681202763'
       },
       CristinaC_InesM: {
         cat_embajadora: '1351968544551731365',
-        //soytuembajadora: '1351968544551731366',
-        //elmardedudas: '1351968544551731367',
-        //feedbackdupla: '1351968545088733245'
       }
     },
 
@@ -90,56 +68,41 @@ export const CONFIG_SERVIDORES = {
 
     canalesFijos: {
       mislogros: '1411656675831578674',
-      eureka: '1411656675831578675',        
-      subirmivibra: '1411656676008005673',   
+      eureka: '1411656675831578675',
+      subirmivibra: '1411656676008005673',
       experiencias: '1411656676008005674',
-      estandar: '1411656676008005675',    
-      duplas: '1411656676008005676', 
-      canaldeintercambioproyecto: '1411656676008005677', // canal-de-intercambio-proyecto
-      dudasdinámicaspsicóloga: '1411656676008005678', // dudas-dinámicas-psicóloga
-      diseñohumano: '1411656676008005680', // diseño-humano
-      tareaspendientes: '1411656676008005681', // tareas-pendientes
-      sensación: '1411656676167385098', // sensación
+      estandar: '1411656676008005675',
+      duplas: '1411656676008005676',
+      canaldeintercambioproyecto: '1411656676008005677',
+      dudasdinámicaspsicóloga: '1411656676008005678',
+      diseñohumano: '1411656676008005680',
+      tareaspendientes: '1411656676008005681',
+      sensación: '1411656676167385098',
       visionexterna: '1411656676167385099',
-      olor: '1411656676167385100', // olor
-      visioninterna: '1411656676167385101', // vision-interna
-      sabor: '1411656676167385102', // sabor
+      olor: '1411656676167385100',
+      visioninterna: '1411656676167385101',
+      sabor: '1411656676167385102',
       toque: '1411656676167385103',
-      trabajo: '1411656676167385105', // trabajo
-      pareja: '1411656676167385106', // pareja
-      dinero: '1411656676326510691' // dinero  
+      trabajo: '1411656676167385105',
+      pareja: '1411656676167385106',
+      dinero: '1411656676326510691'
     },
 
     categoriasPorEmbajador: {
       JuditB: {
         cat_embajadora: '1411656677890986039',
-        //soytuembajador: '1351968540688781327',
-        //elmardedudas: '1351968537958285410',
-        //feedbackdupla: '1351968537958285411'
       },
       CristinaC: {
         cat_embajadora: '1411656676829827096',
-        //soytuembajadora: '1351968539128369227',
-        //elmardedudas: '1351968539128369228',
-        //feedbackdupla: '1351968539128369229'
       },
       InesM: {
         cat_embajadora: '1411656678402687110',
-        //soytuembajador: '1351968542681202761',
-        //elmardedudas: '1351968542681202762',
-        //feedbackdupla: '1351968542681202763'
       },
       CristinaL: {
         cat_embajadora: '1411656677379276923',
-        //soytuembajadora: '1351968544551731366',
-        //elmardedudas: '1351968544551731367',
-        //feedbackdupla: '1351968545088733245'
       },
       CristinaH: {
         cat_embajadora: '1411656676326510692',
-        //soytuembajadora: '1351968544551731366',
-        //elmardedudas: '1351968544551731367',
-        //feedbackdupla: '1351968545088733245'
       }
     },
 
@@ -151,38 +114,36 @@ export const CONFIG_SERVIDORES = {
     nombre: 'Lector Akae® G11',
 
     canalesFijos: {
-      soporte: '1469388458756935792',              // 🚑-soporte (solo FAQs, no análisis)
-      celebracion: '1442604970061861016',           // 🥳celebración
-      subirmivibra: '1442604970061861017',          // 💃subir-mi-vibra
-      experiencias: '1442604970061861018',          // 🚀experiencias
-      tameana: '1442604970061861019',               // 💎tameana
-      ovnis: '1442604970061861020',                 // 🛸ovnis
-      revisando: '1442604970061861021',             // 🔎revisando
-      lenguajedeluz: '1442604970061861023',         // 🗣lenguaje-de-luz
-      dibujos: '1446803907560083567',               // 🎨dibujos
-      sesionesmagicas: '1446806127260991549'        // 🧚🏻sesiones-mágicas
+      soporte: '1469388458756935792',
+      celebracion: '1442604970061861016',
+      subirmivibra: '1442604970061861017',
+      experiencias: '1442604970061861018',
+      tameana: '1442604970061861019',
+      ovnis: '1442604970061861020',
+      revisando: '1442604970061861021',
+      lenguajedeluz: '1442604970061861023',
+      dibujos: '1446803907560083567',
+      sesionesmagicas: '1446806127260991549'
     },
 
-    // Categoría de prácticas DUPLAS (lunes-domingo)
     categoriaPracticas: '1442604970061861024',
 
-    // IDs de los canales de canalización (para cierre/apertura scheduler)
     canalesCanalizacion: [
-      '1442604970242474084',  // canalización CristinaH
-      '1442604970594537579',  // canalización Ines
-      '1442604971404296212',  // canalización Judit
-      '1442604971739582494',  // canalización CristinaC
-      '1442604972008276203',  // canalización Barbara
-      '1442604972356145322',  // canalización Maria
-      '1442604972914249786',  // canalización Angelo
-      '1442604973220299014',  // canalización JuditB
-      '1466726332036812841'   // canalización JuanPablo
+      '1442604970242474084',
+      '1442604970594537579',
+      '1442604971404296212',
+      '1442604971739582494',
+      '1442604972008276203',
+      '1442604972356145322',
+      '1442604972914249786',
+      '1442604973220299014',
+      '1466726332036812841'
     ],
 
     categoriasPorEmbajador: {
       CristinaH: {
         cat_embajadora: '1442604970242474082',
-        cat_urgencias: '1446843840446337225',       // 🤕 URGENCIAS CRISTINA H
+        cat_urgencias: '1446843840446337225',
         soytuembajadora: '1442604970242474083',
         canalizacion: '1442604970242474084',
         elmardedudas: '1442604970401726626',
@@ -190,7 +151,7 @@ export const CONFIG_SERVIDORES = {
       },
       Ines: {
         cat_embajadora: '1442604970594537577',
-        cat_urgencias: '1446847678586683402',       // 🤕 URGENCIAS INES
+        cat_urgencias: '1446847678586683402',
         soytuembajadora: '1442604970594537578',
         canalizacion: '1442604970594537579',
         elmardedudas: '1442604970594537580',
@@ -198,7 +159,7 @@ export const CONFIG_SERVIDORES = {
       },
       Judit: {
         cat_embajadora: '1442604971123019835',
-        cat_urgencias: '1446847734509342853',       // 🤕 URGENCIAS JUDIT
+        cat_urgencias: '1446847734509342853',
         soytuembajadora: '1442604971123019836',
         elmardedudas: '1442604971123019837',
         canalizacion: '1442604971404296212',
@@ -206,7 +167,7 @@ export const CONFIG_SERVIDORES = {
       },
       CristinaC: {
         cat_embajadora: '1442604971739582492',
-        cat_urgencias: '1446846051234353242',       // 🤕 URGENCIAS CRISTINA C
+        cat_urgencias: '1446846051234353242',
         soytuembajadora: '1442604971739582493',
         canalizacion: '1442604971739582494',
         elmardedudas: '1442604972008276198',
@@ -214,7 +175,7 @@ export const CONFIG_SERVIDORES = {
       },
       Barbara: {
         cat_embajadora: '1442604972008276201',
-        cat_urgencias: '1446847804734439424',       // 🤕 URGENCIAS BARBARA
+        cat_urgencias: '1446847804734439424',
         soytuembajador: '1442604972008276202',
         canalizacion: '1442604972008276203',
         elmardedudas: '1442604972008276204',
@@ -222,7 +183,7 @@ export const CONFIG_SERVIDORES = {
       },
       Maria: {
         cat_embajadora: '1442604972356145320',
-        cat_urgencias: '1446847574920265799',       // 🤕 URGENCIAS MARIA
+        cat_urgencias: '1446847574920265799',
         soytuembajadora: '1442604972356145321',
         canalizacion: '1442604972356145322',
         elmardedudas: '1442604972356145323',
@@ -230,7 +191,7 @@ export const CONFIG_SERVIDORES = {
       },
       Angelo: {
         cat_embajadora: '1442604972914249784',
-        cat_urgencias: '1446847023079886912',       // 🤕 URGENCIAS ANGELO
+        cat_urgencias: '1446847023079886912',
         soytuembajador: '1442604972914249785',
         canalizacion: '1442604972914249786',
         elmardedudas: '1442604972914249787',
@@ -238,7 +199,7 @@ export const CONFIG_SERVIDORES = {
       },
       JuditB: {
         cat_embajadora: '1442604973220299012',
-        cat_urgencias: '1446847877140713664',       // 🤕 URGENCIAS JUDIT B
+        cat_urgencias: '1446847877140713664',
         soytuembajadora: '1442604973220299013',
         canalizacion: '1442604973220299014',
         elmardedudas: '1442604973362778172',
@@ -246,7 +207,7 @@ export const CONFIG_SERVIDORES = {
       },
       JuanPablo: {
         cat_embajadora: '1466724362475278461',
-        cat_urgencias: '1466724486798905551',       // 🤕 URGENCIAS JUAN PABLO
+        cat_urgencias: '1466724486798905551',
         soytuembajador: '1466726291511447552',
         canalizacion: '1466726332036812841',
         elmardedudas: '1466726351095595174',
@@ -258,57 +219,100 @@ export const CONFIG_SERVIDORES = {
     webhookFAQ: process.env.N8N_WEBHOOK_FAQ
   },
 
-  // '1351968535580114984': { // Lector Akae (ANTIGUO - COMENTADO)
-  //   nombre: 'Lector Akae',
+  '1430923289160847500': { // Psika® G11
+    nombre: 'Psika® G11',
 
-  //   canalesFijos: {
-  //     celebracion: '1351968536955977902',
-  //     subirmivibra: '1351968536955977903',   
-  //     experiencias: '1351968536955977904',   
-  //     tameanas: '1351968536955977905',
-  //     dibujos: '1351968536955977906',
-  //     ovnis: '1351968536955977907',
-  //     revisando: '1351968536955977908',
-  //     sesionesmagicas: '1351968536955977909',
-  //     lenguajedeluz: '1351968536955977910',
-  //     canalizacion: '1351968536955977911',
-  //   },
+    canalesFijos: {
+      soporte: '1430923290029064231',        // 🚑-soporte (solo FAQs, no análisis)
+      mislogros: '1430923290314281023',      // 🥳mis-logros
+      subirmivibra: '1430923290314281024',   // 💃subir-mi-vibra
+      experiencias: '1430923290314281025',   // 🚀experiencias
+      elcasoabierto: '1430923290314281026',  // 🧐el-caso-abierto
+      eljuego: '1430923290314281028',        // 🎯-el-juego
+      sesionesmagicas: '1430923290314281029',// 🧚🏻sesiones-mágicas
+      visionremota: '1430923290561482800',   // 👀visión-remota
+      duplaslatamusa: '1430923290561482801', // duplas-latam-usa
+      mesadeocho: '1448796036629008454'      // 🎱mesa-de-ocho
+    },
 
-  //   // Categoría de prácticas (lunes-domingo)
-  //   categoriaPracticas: '1351968537459167437',
+    categoriaPracticas: '1430923290314281030', // Prácticas (lunes-domingo)
 
-  //   categoriasPorEmbajador: {
-  //     AbgeloB_JuditB: {
-  //       cat_embajadora: '1351968537958285409',
-  //       //soytuembajador: '1351968540688781327',
-  //       //elmardedudas: '1351968537958285410',
-  //       //feedbackdupla: '1351968537958285411'
-  //     },
-  //     CristinaH_BarbaraP: {
-  //       cat_embajadora: '1351968539128369226',
-  //       //soytuembajadora: '1351968539128369227',
-  //       //elmardedudas: '1351968539128369228',
-  //       //feedbackdupla: '1351968539128369229'
-  //     },
-  //     JuanPablo_CristinaL: {
-  //       cat_embajadora: '1351968542681202760',
-  //       //soytuembajador: '1351968542681202761',
-  //       //elmardedudas: '1351968542681202762',
-  //       //feedbackdupla: '1351968542681202763'
-  //     },
-  //     CristinaC_InesM: {
-  //       cat_embajadora: '1351968544551731365',
-  //       //soytuembajadora: '1351968544551731366',
-  //       //elmardedudas: '1351968544551731367',
-  //       //feedbackdupla: '1351968545088733245'
-  //     }
-  //   },
+    categoriasPorEmbajador: {
+      CristinaH: {
+        cat_embajadora: '1430923290561482802',
+        cat_urgencias: '1430923292268564593',
+        soytuembajadora: '1430923290926383246',
+        elmardedudas: '1430923290926383247',
+        feedbackdupla: '1430923290926383248'
+      },
+      JuanPablo: {
+        cat_embajadora: '1430923292562292911',
+        cat_urgencias: '1430923292960882743',
+        soytuembajador: '1430923292562292912',
+        elmardedudas: '1430923292562292913',
+        feedbackdupla: '1430923292562292914'
+      },
+      AngeloCarol: {
+        cat_embajadora: '1430923295410356373',
+        cat_urgencias: '1430923295758352549',
+        soytuembajador: '1430923295410356374',
+        elmardedudas: '1430923295758352547',
+        feedbackdupla: '1430923295758352548'
+      },
+      CristinaC: {
+        cat_embajadora: '1430923298396573803',
+        cat_urgencias: '1430923298396573807',
+        soytuembajadora: '1430923298396573804',
+        elmardedudas: '1430923298396573805',
+        feedbackdupla: '1430923298396573806'
+      },
+      Maria: {
+        cat_embajadora: '1448741309257879662',
+        cat_urgencias: '1448970488037769320',
+        soytuembajadora: '1448969009390424117',
+        elmardedudas: '1448969110267363380',
+        feedbackdupla: '1448969692411859054'
+      },
+      Ines: {
+        cat_embajadora: '1448741449838628936',
+        cat_urgencias: '1448970571659346011',
+        soytuembajadora: '1448969408767721494',
+        elmardedudas: '1448969157088645150',
+        feedbackdupla: '1448969711630159966'
+      },
+      Judit: {
+        cat_embajadora: '1448741620110594118',
+        cat_urgencias: '1448970640588804189',
+        soytuembajadora: '1448969425817571328',
+        elmardedudas: '1448969176000630795',
+        feedbackdupla: '1448969725475557427'
+      },
+      Barbara: {
+        cat_embajadora: '1448741713307893774',
+        cat_urgencias: '1448970699870830672',
+        soytuembajadora: '1448969444209725450',
+        elmardedudas: '1448969195026120776',
+        feedbackdupla: '1448969738884616274'
+      },
+      CristinaL: {
+        cat_embajadora: '1448741779422838794',
+        cat_urgencias: '1448970760872919173',
+        soytuembajadora: '1448969462043644040',
+        elmardedudas: '1448969215397593150',
+        feedbackdupla: '1448969753472401429'
+      },
+      Beatriz: {
+        cat_embajadora: '1448741846229716993',
+        cat_urgencias: '1448970811913277462',
+        soytuembajadora: '1448969478883901490',
+        elmardedudas: '1448969232187527199',
+        feedbackdupla: '1448969768705986580'
+      }
+    },
 
-  //   webhookAnalisis: process.env.N8N_WEBHOOK_URL,
-  //   webhookFAQ: process.env.N8N_WEBHOOK_FAQ
-  // },
-
-
+    webhookAnalisis: process.env.N8N_WEBHOOK_URL,
+    webhookFAQ: process.env.N8N_WEBHOOK_FAQ
+  },
 
   '1387738817208914043': { // Servidor de prueba
     nombre: 'Servidor de prueba',
